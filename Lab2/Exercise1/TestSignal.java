@@ -8,7 +8,6 @@ public class TestSignal {
 		s.addSignalObserver(new PrintStarObserver());
 		s.addSignalObserver(window);
 		s.setSampler(new SinusSampler(0.0, 0.1));
-		//test
 	}
 
 }
