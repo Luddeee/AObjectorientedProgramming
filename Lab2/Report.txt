@@ -1,0 +1,6 @@
+Exercise 9.
+The classes that has been used and that are a part of the Presenter framework are ActionEvent, ActionListener, JButton, Jcomponent, JFrame.
+To then write a complete application the application programmer needs to implement necessary methods and classes such as the abstract 
+classes centerComponent and button.
+
+Exercise 10.

@@ -1,3 +1,4 @@
+package Exercise10;
 import java.io.File;
 
 import javax.swing.JComponent;
@@ -5,11 +6,19 @@ import javax.swing.JComponent;
 public class SlideShow extends Presenter {
 
 	private JComponent pictureComponent = null;
+
+	File[] imageFiles;
+	String[] texts;
+	int currIndex;
 	
 	public SlideShow(File[] imageFiles, String[] texts) {
 		// read and remember (create instance variables)
 		// images from the indicated files
 		// and also remember texts in an instance field
+
+		this.imageFiles = imageFiles;
+		this.texts = texts;
+		
 	}
 	
 	@Override
