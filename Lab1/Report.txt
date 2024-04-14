@@ -1,0 +1,39 @@
+Exercise
+1. 
+(a) *-* A student can have a lot of courses and courses can have a lot of students
+(b) 1-* A courses can have multiple sections but a section can only be for one courses
+(c) *-* A section can have a team of instructor and an instructor can have many sections
+(d) *-* A section can be in many rooms and a room can host multiple sections
+
+2.
+Exercise2diagaram.png
+
+5.
+Code
+
+6.
+String, BigInteger, BigDecimal
+
+7. 
+Code
+
+8.
+Code
+
+9.
+Code
+
+12.
+Polymorphism has the ability to select diffrent methods 
+that fits the actual type of the object sent in. 
+multiple classes can implement the same interface. 
+with these classes we have the ability to choose an 
+interface that the type requires. witch makes it possible
+for the program to operate on a mixture of object from
+these classes. this behavoir is called polymorphism.
+
+14.
+Code
+
+15.
+Code
