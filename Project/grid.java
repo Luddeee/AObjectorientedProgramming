@@ -17,15 +17,16 @@ public class grid {
     JPanel westTextPanel = new JPanel();
     JLabel westText = new JLabel();
 
-    JPanel bottomPanel = new JPanel();
-    JButton closeButton = new JButton("Confirm");
+    JButton settingsBtn = new JButton("Settings");
+    JButton playBtn = new JButton("Play");
+    JButton exitBtn = new JButton("Exit");
 
     JPanel centerPanel = new JPanel();
 
     grid(){
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
-        frame.setSize((int)(screenSize.width * 0.6), (int)(screenSize.height*0.6));
+        frame.setSize((int)(screenSize.width * 0.7), (int)(screenSize.height*0.7));
         frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
@@ -52,16 +53,15 @@ public class grid {
         eastTextPanel.setBorder(BorderFactory.createMatteBorder(0,1,0,0, Color.BLACK));
 
         //South
-        southText.setText("Start/stop, buttons");
-        southText.setFont(new Font("Arial",Font.BOLD, (int)(frame.getHeight()*0.08)));
-        southText.setHorizontalAlignment(JLabel.CENTER);
-        closeButton.addActionListener(e -> frame.dispose());
-        bottomPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        playBtn.addActionListener(e -> MineSweeper.load());
+        settingsBtn.addActionListener(e -> new settings());
+        exitBtn.addActionListener(e -> frame.dispose());
         
 
         southTextPanel.setLayout(new BorderLayout());
-        southTextPanel.add(southText);
-        southTextPanel.add(closeButton, BorderLayout.EAST);
+        southTextPanel.add(playBtn, BorderLayout.CENTER);
+        southTextPanel.add(settingsBtn, BorderLayout.WEST);
+        southTextPanel.add(exitBtn,BorderLayout.EAST);
         southTextPanel.setPreferredSize(new Dimension(frame.getWidth(),(int)(frame.getHeight()*0.1)));
         southTextPanel.setBorder(BorderFactory.createMatteBorder(1,0,0,0, Color.BLACK));
 
