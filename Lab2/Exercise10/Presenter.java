@@ -5,21 +5,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
+//import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 public abstract class Presenter {
 
-	public abstract JComponent createCenterComponent();
+	public abstract PictureComponent createCenterComponent();
 	
 	public abstract void northButtonPressed();
 	public abstract void eastButtonPressed();
 	public abstract void southButtonPressed();
 	public abstract void westButtonPressed();
 
-	JComponent centerComponent;
+	PictureComponent centerComponent;
 	TextArea textArea;
 	
 	JFrame frame = new JFrame();
@@ -54,12 +54,12 @@ public abstract class Presenter {
 		frame.add(centerComponent, BorderLayout.CENTER);
 
 		// create other components (text component, e.g.), add them to frame
-		textArea = new TextArea("Nah", 5, 1);
+		textArea = new TextArea("Nah", 4, 1);
 		textArea.setEditable(false);
 		frame.add(textArea, BorderLayout.PAGE_START);
 
 		// show frame
-		frame.setSize(1000, 1000);
+		frame.setSize(1000, 800);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);		
 	}

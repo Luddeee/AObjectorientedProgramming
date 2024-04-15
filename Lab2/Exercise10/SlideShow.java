@@ -1,15 +1,15 @@
 package Exercise10;
 import java.io.File;
 
-import javax.swing.JComponent;
+//import javax.swing.JComponent;
 
 public class SlideShow extends Presenter {
 
-	private JComponent pictureComponent = null;
+	private PictureComponent pictureComponent = null;
 
 	File[] imageFiles;
 	String[] texts;
-	int currIndex;
+	//int currIndex;
 	
 	public SlideShow(File[] imageFiles, String[] texts) {
 		// read and remember (create instance variables)
@@ -18,14 +18,16 @@ public class SlideShow extends Presenter {
 
 		this.imageFiles = imageFiles;
 		this.texts = texts;
-		
+		centerComponent.setPictures(imageFiles);
+		showText(texts[0]);
 	}
 	
 	@Override
-	public JComponent createCenterComponent() {
+	public PictureComponent createCenterComponent() {
 		// create picture Component
 		// you may want to create a class for that
 		// (class PictureComponent extends JComponent { ... } )
+		this.pictureComponent = new PictureComponent(imageFiles);
 		return pictureComponent;
 	}
 
@@ -39,11 +41,15 @@ public class SlideShow extends Presenter {
 		// Graphics2D g2 = (Graphics2D)g;
 		// g2.drawImage(image, null, <posX>, <posY>);
 		// Google will give details
+		centerComponent.nextSlide();
+		showText(texts[centerComponent.currIndex]);
 	}
 	
 	@Override
 	public void westButtonPressed() {
 		// same as for east button, but for previous picture
+		centerComponent.prevSlide();
+		showText(texts[centerComponent.currIndex]);
 	}
 
 	@Override
@@ -56,8 +62,7 @@ public class SlideShow extends Presenter {
 	
 	public static void main(String[] args) {
 		SlideShow app = new SlideShow(
-				new File[] { new File("pic1.jpg"), new File("pic2.jpg")},
+				new File[] { new File("pic1.png"), new File("pic2.png")},
 				new String[] {"Descirption 1", "Description 2"});				
 	}
-
 }
