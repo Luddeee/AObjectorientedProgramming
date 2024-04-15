@@ -4,8 +4,18 @@ import java.awt.*;
 
 public class grid {
     JFrame frame = new JFrame("Minesweeper");
-    JPanel toptextpanel = new JPanel();
-    JLabel temptext = new JLabel();
+
+    JPanel northTextPanel = new JPanel();
+    JLabel northText = new JLabel();
+
+    JPanel eastTextPanel = new JPanel();
+    JLabel eastText = new JLabel();
+
+    JPanel southTextPanel = new JPanel();
+    JLabel southText = new JLabel();
+
+    JPanel westTextPanel = new JPanel();
+    JLabel westText = new JLabel();
 
     grid(){
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -16,16 +26,51 @@ public class grid {
         frame.setLayout(new BorderLayout());
         frame.setResizable(false);
 
-        temptext.setText("Minesweeper");
-        temptext.setFont(new Font("Arial",Font.BOLD, (int)(frame.getHeight()*0.08)));
-        temptext.setHorizontalAlignment(JLabel.CENTER);
+        //North
+        northText.setText("Minesweeper");
+        northText.setFont(new Font("Arial",Font.BOLD, (int)(frame.getHeight()*0.08)));
+        northText.setHorizontalAlignment(JLabel.CENTER);
 
-        toptextpanel.setLayout(new BorderLayout());
-        toptextpanel.add(temptext);
-        toptextpanel.setPreferredSize(new Dimension(frame.getWidth(),(int)(frame.getHeight()*0.1)));
-        toptextpanel.setBorder(BorderFactory.createMatteBorder(0,0,1,0, Color.BLACK));
+        northTextPanel.setLayout(new BorderLayout());
+        northTextPanel.add(northText);
+        northTextPanel.setPreferredSize(new Dimension(frame.getWidth(),(int)(frame.getHeight()*0.1)));
+        northTextPanel.setBorder(BorderFactory.createMatteBorder(0,0,1,0, Color.BLACK));
 
-        frame.add(toptextpanel, BorderLayout.NORTH);
+        //East
+        eastText.setText("Highscore");
+        eastText.setFont(new Font("Arial",Font.BOLD, (int)(frame.getWidth()*0.02)));
+        eastText.setHorizontalAlignment(JLabel.CENTER);
+
+        eastTextPanel.setLayout(new BorderLayout());
+        eastTextPanel.add(eastText);
+        eastTextPanel.setPreferredSize(new Dimension((int)(frame.getWidth()*0.2),frame.getHeight()));
+        eastTextPanel.setBorder(BorderFactory.createMatteBorder(0,1,0,0, Color.BLACK));
+
+        //South
+        southText.setText("Start/stop, buttons");
+        southText.setFont(new Font("Arial",Font.BOLD, (int)(frame.getHeight()*0.08)));
+        southText.setHorizontalAlignment(JLabel.CENTER);
+
+        southTextPanel.setLayout(new BorderLayout());
+        southTextPanel.add(southText);
+        southTextPanel.setPreferredSize(new Dimension(frame.getWidth(),(int)(frame.getHeight()*0.1)));
+        southTextPanel.setBorder(BorderFactory.createMatteBorder(1,0,0,0, Color.BLACK));
+
+        //West
+        westText.setText("Highscore");
+        westText.setFont(new Font("Arial",Font.BOLD, (int)(frame.getWidth()*0.02)));
+        westText.setHorizontalAlignment(JLabel.CENTER);
+
+        westTextPanel.setLayout(new BorderLayout());
+        westTextPanel.add(westText);
+        westTextPanel.setPreferredSize(new Dimension((int)(frame.getWidth()*0.2),frame.getHeight()));
+        westTextPanel.setBorder(BorderFactory.createMatteBorder(0,0,0,1, Color.BLACK));
+
+        //Adding frame
+        frame.add(northTextPanel, BorderLayout.NORTH);
+        frame.add(eastTextPanel, BorderLayout.EAST);
+        frame.add(southTextPanel, BorderLayout.SOUTH);
+        frame.add(westTextPanel, BorderLayout.WEST);
         frame.setVisible(true);
     }
 
