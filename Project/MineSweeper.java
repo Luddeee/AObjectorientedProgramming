@@ -1,9 +1,10 @@
 package Project;
 
-public class MineSweeper {
+public class MineSweeper{
     public static void restart(){
         //This will restart the whole game and all it's content with the settings currently equiped
         System.out.println("restarted"); //testing var
+        System.out.println("Difficulty is now: " + settings.getDifficulty());
     }
 
     public static void load(){

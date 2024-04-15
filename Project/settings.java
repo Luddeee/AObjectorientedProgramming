@@ -2,7 +2,7 @@ package Project;
 import java.awt.*;
 import javax.swing.*;
 
-public class settings {
+public class settings{
     JDialog frame1 = new JDialog();
 
     JPanel northTextPanel = new JPanel();
@@ -18,10 +18,13 @@ public class settings {
     JPanel bottomPanel = new JPanel();
     JButton closeButton = new JButton("Confirm");
 
-    JPanel panel = new JPanel();
-    JComboBox<String> difficulty;
+    JLabel difflabel = new JLabel();
+    private static JComboBox<String> difficulty;
+
+    JLabel optlabel = new JLabel();
     JComboBox<String> opt;
 
+    JPanel panel = new JPanel();
     settings(){
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
@@ -58,9 +61,15 @@ public class settings {
         String[] opti = {"opt1", "opt2", "opt3"};
         opt = new JComboBox<>(opti);
 
+        difflabel.setText("Difficulty");
+        //difflabel.setHorizontalAlignment(JLabel.LEFT);
+        optlabel.setText("Options");
+        //optlabel.setHorizontalAlignment(JLabel.LEFT);
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        contentPanel.add(difficulty,BorderLayout.NORTH);
-        contentPanel.add(opt, BorderLayout.CENTER);
+        contentPanel.add(difflabel);
+        contentPanel.add(difficulty);
+        contentPanel.add(optlabel);
+        contentPanel.add(opt);
 
         //South
         closeButton.addActionListener(e -> {
@@ -77,5 +86,9 @@ public class settings {
         frame1.add(contentPanel, BorderLayout.CENTER);
         frame1.setVisible(true);
         frame1.setAlwaysOnTop(true);
+    }
+
+    public static String getDifficulty() {
+        return (String)difficulty.getSelectedItem();
     }
 }
