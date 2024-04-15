@@ -61,8 +61,9 @@ public class SlideShow extends Presenter {
 	}
 	
 	public static void main(String[] args) {
-		SlideShow app = new SlideShow(
-				new File[] { new File("pic1.png"), new File("pic2.png")},
+		new SlideShow(
+				//You may have to edit file paths to suite your system
+				new File[] { new File("Lab2/Exercise10/pic1.png"), new File("Lab2/Exercise10/pic2.png")},
 				new String[] {"Descirption 1", "Description 2"});				
 	}
 }

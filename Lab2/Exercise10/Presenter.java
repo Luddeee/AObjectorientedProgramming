@@ -29,7 +29,7 @@ public abstract class Presenter {
 		westButton.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				northButtonPressed();				
+				westButtonPressed();				
 			}
 		});
 
@@ -37,7 +37,7 @@ public abstract class Presenter {
 		eastButton.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				northButtonPressed();				
+				eastButtonPressed();				
 			}
 		});
 		// add northButton to a JPanel, add that panel to frame

@@ -34,7 +34,9 @@ public class PictureComponent extends JComponent {
         if (image != null) {
             g.drawImage(image, 0, 0, 400, 400, Color.WHITE, null);
         } else {
-            System.out.println("image is null!");
+            System.out.println("image is null!"); //If you get here you may have to adjust your path in SlideShow
+            System.out.println("Current working directory: " + new File(".").getAbsolutePath()); 
+
         }
 
         System.out.println("Went to slide: " + currIndex);
