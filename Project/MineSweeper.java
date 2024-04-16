@@ -11,6 +11,7 @@ class MineSweeper{
     private JPanel mainPanel = new JPanel();
     private JButton[][] squares;
     private HashSet<String> mines = new HashSet<>();
+    private boolean[][] visited;
 
     int easymines = 10;
     int easyrows = 8;
@@ -63,6 +64,7 @@ class MineSweeper{
         setMines();
 
         squares = new JButton[row][row];
+        visited = new boolean[row][row];
         for (int i = 0; i < squares.length; i++) {
             for (int j = 0; j < squares.length; j++) {
                 squares[i][j] = new JButton();
@@ -72,17 +74,10 @@ class MineSweeper{
                 squares[i][j].addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        JButton button = (JButton) e.getSource();
-                        if (mines.contains(button.getActionCommand())) {
-                            button.setText("BOMB");
-                            JOptionPane.showMessageDialog(mainPanel, "You hit a mine!");
-                        } else {
-                            int nearBombs = nearBombsCounter(fi, fj);
-                            button.setText(Integer.toString(nearBombs));
-                            button.setEnabled(false);
-                        }
+                        showButton(fi, fj);
                     }
                 });
+                //squares[i][j].setActionCommand(fi + " " + fj);
                 mainPanel.add(squares[i][j]);
             }
         }
@@ -122,5 +117,29 @@ class MineSweeper{
             }
         }
         return count;
+    }
+
+    private void showButton(int x, int y) {
+        if (x < 0 || x >= row || y < 0 || y >= row || visited[x][y]) {
+            return; // Out of bounds or already visited
+        }
+
+        visited[x][y] = true;
+        int bombsNearby = nearBombsCounter(x, y);
+        JButton button = squares[x][y];
+        button.setText(Integer.toString(bombsNearby));
+        button.setEnabled(false);
+
+        if (mines.contains(x + " " + y)) {
+            button.setText("BOMB");
+            JOptionPane.showMessageDialog(mainPanel, "You hit a mine!");
+        } else if (bombsNearby == 0) {
+            // Recursively reveal adjacent squares
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    showButton(x + i, y + j);
+                }
+            }
+        }
     }
 }
