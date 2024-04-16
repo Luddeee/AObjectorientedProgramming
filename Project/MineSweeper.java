@@ -2,16 +2,16 @@ package Project;
 
 import java.awt.GridLayout;
 import javax.swing.*;
-import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Random;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 
 class MineSweeper{
     private JPanel mainPanel = new JPanel();
     private JButton[][] squares;
     private HashSet<String> mines = new HashSet<>();
     private boolean[][] visited;
+    private boolean[][] flagged;
 
     int easymines = 10;
     int easyrows = 8;
@@ -65,16 +65,21 @@ class MineSweeper{
 
         squares = new JButton[row][row];
         visited = new boolean[row][row];
+        flagged = new boolean[row][row];
         for (int i = 0; i < squares.length; i++) {
             for (int j = 0; j < squares.length; j++) {
                 squares[i][j] = new JButton();
                 squares[i][j].setActionCommand(i + " " + j); //Determines the action the buttons should havea
                 final int fi = i; //Final variables as to not tuch i and j (needed for nearBombsCounter())
                 final int fj = j;
-                squares[i][j].addActionListener(new ActionListener() {
+                squares[i][j].addMouseListener(new MouseAdapter() {
                     @Override
-                    public void actionPerformed(ActionEvent e) {
-                        showButton(fi, fj);
+                    public void mouseClicked(MouseEvent e) {
+                        if (SwingUtilities.isRightMouseButton(e)) {
+                            toggleFlag(fi, fj);
+                        } else if (SwingUtilities.isLeftMouseButton(e)) {
+                            showButton(fi, fj);
+                        }
                     }
                 });
                 //squares[i][j].setActionCommand(fi + " " + fj);
@@ -83,11 +88,6 @@ class MineSweeper{
         }
         mainPanel.revalidate();
         mainPanel.repaint();
-    }
-
-    public static void load(){
-        //Loads and starts the game, if game is already running the game instead restarts using the restart method and then calls itself to begin again
-        System.out.println("Loaded"); //Testing var
     }
 
     void saveHighscore(){
@@ -121,7 +121,7 @@ class MineSweeper{
 
     private void showButton(int x, int y) {
         if (x < 0 || x >= row || y < 0 || y >= row || visited[x][y]) {
-            return; // Out of bounds or already visited
+            return; //Error handling if we are out of bounds
         }
 
         visited[x][y] = true;
@@ -139,6 +139,17 @@ class MineSweeper{
                 for (int j = -1; j <= 1; j++) {
                     showButton(x + i, y + j);
                 }
+            }
+        }
+    }
+    private void toggleFlag(int x, int y) {
+        if (!visited[x][y]) { // Prevent flagging after revealing
+            flagged[x][y] = !flagged[x][y]; // Toggle flag status
+            JButton button = squares[x][y];
+            if (flagged[x][y]) {
+                button.setText("F");
+            } else {
+                button.setText("");
             }
         }
     }
