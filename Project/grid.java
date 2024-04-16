@@ -1,6 +1,8 @@
 package Project;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.util.Scanner;
 
 public class grid {
     JFrame frame = new JFrame("Minesweeper");
@@ -20,6 +22,10 @@ public class grid {
     JButton settingsBtn = new JButton("Settings");
     JButton playBtn = new JButton("Play");
     JButton exitBtn = new JButton("Exit");
+
+    DefaultListModel<String> listModel = new DefaultListModel<>();
+    JList<String> highscorelist = new JList<>(listModel);
+    JScrollPane highscroll = new JScrollPane(highscorelist);
 
     JPanel centerPanel = new JPanel();
 
@@ -46,9 +52,9 @@ public class grid {
         eastText.setText("Highscore");
         eastText.setFont(new Font("Arial",Font.BOLD, (int)(frame.getWidth()*0.02)));
         eastText.setHorizontalAlignment(JLabel.CENTER);
-
+        
         eastTextPanel.setLayout(new BorderLayout());
-        eastTextPanel.add(eastText);
+        eastTextPanel.add(eastText, BorderLayout.NORTH);
         eastTextPanel.setPreferredSize(new Dimension((int)(frame.getWidth()*0.2),frame.getHeight()));
         eastTextPanel.setBorder(BorderFactory.createMatteBorder(0,1,0,0, Color.BLACK));
 
@@ -84,7 +90,25 @@ public class grid {
         frame.add(southTextPanel, BorderLayout.SOUTH);
         frame.add(westTextPanel, BorderLayout.WEST);
         frame.add(centerPanel, BorderLayout.CENTER);
+        loadHighScores("Project/Highscores.txt"); //This may need to be changed before exporting project
         frame.setVisible(true);
+    }
+
+    private void loadHighScores(String path){
+        highscroll.setPreferredSize(new Dimension((int)(frame.getWidth()*0.2),frame.getHeight()));
+        try {
+            File file = new File(path);
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String item = scanner.nextLine();
+                listModel.addElement(item);
+            }
+            scanner.close();
+        } catch (Exception e) {
+            System.out.println("Error reading or loading file");
+            System.out.println("Current working directory: " + new File(".").getAbsolutePath());
+        }
+        eastTextPanel.add(highscroll, BorderLayout.CENTER);
     }
 
     //public static void main(String[] args) {

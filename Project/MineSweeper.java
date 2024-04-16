@@ -12,6 +12,11 @@ public class MineSweeper{
         System.out.println("Loaded"); //Testing var
     }
 
+    void saveHighscore(){
+        //Saves the time of completion and difficulty when winning to a text file, (the text file can then be loaded in)
+        //This also needs to add the highscore in the correct order in the text file so that the best is at the top
+    }
+
     public static void main(String[] args) {
         new grid();
         new settings();
