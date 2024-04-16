@@ -5,7 +5,7 @@ import java.io.File;
 import java.util.Scanner;
 
 public class grid {
-    //MineSweeper mineSweeper = new MineSweeper();
+    MineSweeper mineSweeper;
     JFrame frame = new JFrame("Minesweeper");
 
     JPanel northTextPanel = new JPanel();
@@ -30,6 +30,7 @@ public class grid {
 
     JPanel mainPanel = new JPanel();
     grid(){
+        mineSweeper = new MineSweeper();
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
         frame.setSize((int)(screenSize.width * 0.7), (int)(screenSize.height*0.7));
@@ -90,7 +91,7 @@ public class grid {
         frame.add(eastTextPanel, BorderLayout.EAST);
         frame.add(southTextPanel, BorderLayout.SOUTH);
         frame.add(westTextPanel, BorderLayout.WEST);
-        //frame.add(MineSweeper.getMainPanel(), BorderLayout.CENTER);
+        frame.add(mineSweeper.getMainPanel(), BorderLayout.CENTER);
         
         loadHighScores("Project/Highscores.txt"); //This may need to be changed before exporting project
         frame.setVisible(true);
