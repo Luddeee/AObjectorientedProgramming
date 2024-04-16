@@ -63,7 +63,7 @@ public class grid {
 
         //South
         playBtn.addActionListener(e -> MineSweeper.load());
-        settingsBtn.addActionListener(e -> new settings());
+        settingsBtn.addActionListener(e -> new settings(mineSweeper));
         exitBtn.addActionListener(e -> System.exit(0));
         
 

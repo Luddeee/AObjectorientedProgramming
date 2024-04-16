@@ -1,8 +1,9 @@
 package Project;
 
 import java.awt.GridLayout;
-
 import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 class MineSweeper{
     private JPanel mainPanel = new JPanel();
@@ -12,6 +13,36 @@ class MineSweeper{
     int row = 24; //Number of rows to exist, (the number of squares to exist in the playing field) (the field will be a square thus row and col are equal)
 
     MineSweeper(){
+        initializeGrid();
+    }
+
+    public JPanel getMainPanel(){
+        return mainPanel;
+    }
+
+    public void restart(){
+        //This will restart the whole game and all it's content with the settings currently equiped
+        System.out.println("restarted"); //testing var
+        System.out.println("Difficulty is now: " + settings.getDifficulty());
+        initializeGrid();
+    }
+
+    private void initializeGrid(){
+        try{
+        if((String)settings.getDifficulty()=="Easy"){
+            row = 8;
+        }
+        else if((String)settings.getDifficulty()=="Medium"){
+            row = 14;
+        }
+        else if((String)settings.getDifficulty()=="Hard"){
+            row = 24;
+        }
+        }
+        catch(Exception e){
+            
+        }
+        mainPanel.removeAll();
         mainPanel.setLayout(new GridLayout(row, row));
 
         squares = new JButton[row][row];
@@ -19,19 +50,18 @@ class MineSweeper{
             for (int j = 0; j < squares.length; j++) {
                 squares[i][j] = new JButton();
                 squares[i][j].setActionCommand(i + " " + j); //Determines the action the buttons should havea
+                squares[i][j].addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        JButton button = (JButton) e.getSource();
+                        button.setVisible(false); // This makes the button disappear from the grid
+                    }
+                });
                 mainPanel.add(squares[i][j]);
             }
         }
-    }
-
-    public JPanel getMainPanel(){
-        return mainPanel;
-    }
-
-    public static void restart(){
-        //This will restart the whole game and all it's content with the settings currently equiped
-        System.out.println("restarted"); //testing var
-        System.out.println("Difficulty is now: " + settings.getDifficulty());
+        mainPanel.revalidate();
+        mainPanel.repaint();
     }
 
     public static void load(){
