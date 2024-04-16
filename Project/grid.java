@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class grid {
     MineSweeper mineSweeper;
+    HowTo howTo;
     JFrame frame = new JFrame("Minesweeper");
 
     JPanel northTextPanel = new JPanel();
@@ -31,6 +32,7 @@ public class grid {
     JPanel mainPanel = new JPanel();
     grid(){
         mineSweeper = new MineSweeper();
+        howTo = new HowTo();
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
         frame.setSize((int)(screenSize.width * 0.7), (int)(screenSize.height*0.7));
@@ -62,7 +64,7 @@ public class grid {
         //South
         playBtn.addActionListener(e -> MineSweeper.load());
         settingsBtn.addActionListener(e -> new settings());
-        exitBtn.addActionListener(e -> frame.dispose());
+        exitBtn.addActionListener(e -> System.exit(0));
         
 
         southTextPanel.setLayout(new BorderLayout());
@@ -75,18 +77,15 @@ public class grid {
         //West
         westText.setText("How to play");
         westText.setFont(new Font("Arial",Font.BOLD, (int)(frame.getWidth()*0.02)));
-        westText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        westText.setHorizontalAlignment(JLabel.CENTER);
 
-        westTextPanel.setLayout(new BoxLayout(westTextPanel, BoxLayout.Y_AXIS));
-        westTextPanel.add(westText);
+        westTextPanel.setLayout(new BorderLayout());
+        westTextPanel.add(westText, BorderLayout.NORTH);
         westTextPanel.setPreferredSize(new Dimension((int)(frame.getWidth()*0.2),frame.getHeight()));
         westTextPanel.setBorder(BorderFactory.createMatteBorder(0,0,0,1, Color.BLACK));
-        loadHowTo();
+        westTextPanel.add((howTo.getHowToPanel(frame.getHeight())),BorderLayout.CENTER);
 
-        //Center where most of the program lies
-       // centerPanel.setLayout(new BorderLayout());
-
-        //Adding frame
+        //Adding to frame
         frame.add(northTextPanel, BorderLayout.NORTH);
         frame.add(eastTextPanel, BorderLayout.EAST);
         frame.add(southTextPanel, BorderLayout.SOUTH);
@@ -113,66 +112,4 @@ public class grid {
         }
         eastTextPanel.add(highscroll, BorderLayout.CENTER);
     }
-
-    private void loadHowTo() {
-        File[] imageFiles;
-        String[] texts;
-        imageFiles = new File[] { new File("Project/interfaceIcons/left-click.png"),
-            new File("Project/interfaceIcons/right-click.png"),
-                new File("Project/interfaceIcons/letter-x.png"),
-                new File("Project/interfaceIcons/letter-z.png"),};
-            texts = new String[] {"Left click = Open block", "Right click = Flag block", "X=Open block",
-                 "Z=Flag block"};
-    
-            // Adding images and text
-            for (int i = 0; i < imageFiles.length; i++) {
-                ImageIcon originalIcon = new ImageIcon(imageFiles[i].getPath());
-                Image originalImage = originalIcon.getImage();
-        
-                // Define the maximum width and height for the resized image
-                int maxWidth = 70; // Adjust this value to your preference
-                int maxHeight = 70; // Adjust this value to your preference
-        
-                // Calculate the scaled width and height while preserving aspect ratio
-                int scaledWidth = originalImage.getWidth(null);
-                int scaledHeight = originalImage.getHeight(null);
-                double aspectRatio = (double) scaledWidth / scaledHeight;
-        
-                if (scaledWidth > maxWidth) {
-                    scaledWidth = maxWidth;
-                    scaledHeight = (int) (scaledWidth / aspectRatio);
-                }
-                if (scaledHeight > maxHeight) {
-                    scaledHeight = maxHeight;
-                    scaledWidth = (int) (scaledHeight * aspectRatio);
-                }
-        
-                // Resize the image
-                Image scaledImage = originalImage.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
-        
-                // Create the ImageIcon with the resized image
-                ImageIcon scaledIcon = new ImageIcon(scaledImage);
-        
-                JLabel imageLabel = new JLabel(scaledIcon);
-                JLabel descriptionLabel = new JLabel(texts[i]);
-    
-                JPanel entryPanel = new JPanel();
-                entryPanel.setLayout(new BoxLayout(entryPanel, BoxLayout.Y_AXIS));
-        
-                // Set maximum size for each entry panel
-                entryPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, frame.getHeight() / 2));
-        
-                imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                descriptionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-                entryPanel.add(imageLabel);
-                entryPanel.add(descriptionLabel);
-    
-                westTextPanel.add(entryPanel);
-            
-        }
-    }
-    /*void addMainPanel(){
-        mainPanel = MineSweeper.getMainPanel();
-    }*/
 }
