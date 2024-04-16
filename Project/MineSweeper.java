@@ -3,14 +3,20 @@ package Project;
 import java.awt.GridLayout;
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
+import java.util.Random;
 import java.awt.event.ActionEvent;
 
 class MineSweeper{
     private JPanel mainPanel = new JPanel();
     private JButton[][] squares;
+    private HashSet<String> mines = new HashSet<>();
 
-    private int numMines = 1; //Numbers of mines to exist in the game
-    int row = 24; //Number of rows to exist, (the number of squares to exist in the playing field) (the field will be a square thus row and col are equal)
+    int easymines = 10;
+    int easyrows = 8;
+
+    int numMines = easymines; //Numbers of mines to exist in the game
+    int row = easyrows; //Number of rows to exist, (the number of squares to exist in the playing field) (the field will be a square thus row and col are equal)
 
     MineSweeper(){
         initializeGrid();
@@ -23,38 +29,58 @@ class MineSweeper{
     public void restart(){
         //This will restart the whole game and all it's content with the settings currently equiped
         System.out.println("restarted"); //testing var
-        System.out.println("Difficulty is now: " + settings.getDifficulty());
+        try{
+            System.out.println("Difficulty is now: " + settings.getDifficulty());
+        } catch(Exception e){
+            System.out.println("No difficulty is set, reverting to \"Easy\"");
+        }
+        
         initializeGrid();
     }
 
     private void initializeGrid(){
         try{
         if((String)settings.getDifficulty()=="Easy"){
-            row = 8;
+            row = easyrows;
+            numMines = easymines;
         }
         else if((String)settings.getDifficulty()=="Medium"){
             row = 14;
+            numMines = 25;
         }
         else if((String)settings.getDifficulty()=="Hard"){
             row = 24;
+            numMines = 99;
         }
         }
         catch(Exception e){
             
         }
         mainPanel.removeAll();
+        mines.clear();
         mainPanel.setLayout(new GridLayout(row, row));
+
+        setMines();
 
         squares = new JButton[row][row];
         for (int i = 0; i < squares.length; i++) {
             for (int j = 0; j < squares.length; j++) {
                 squares[i][j] = new JButton();
                 squares[i][j].setActionCommand(i + " " + j); //Determines the action the buttons should havea
+                final int fi = i; //Final variables as to not tuch i and j (needed for nearBombsCounter())
+                final int fj = j;
                 squares[i][j].addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         JButton button = (JButton) e.getSource();
-                        button.setVisible(false); // This makes the button disappear from the grid
+                        if (mines.contains(button.getActionCommand())) {
+                            button.setText("BOMB");
+                            JOptionPane.showMessageDialog(mainPanel, "You hit a mine!");
+                        } else {
+                            int nearBombs = nearBombsCounter(fi, fj);
+                            button.setText(Integer.toString(nearBombs));
+                            button.setEnabled(false);
+                        }
                     }
                 });
                 mainPanel.add(squares[i][j]);
@@ -73,5 +99,28 @@ class MineSweeper{
         //Saves the time of completion and difficulty when winning to a text file, (the text file can then be loaded in)
         //This also needs to add the highscore in the correct order in the text file so that the best is at the top
         //This is to be updated after you win
+    }
+
+    private void setMines() {
+        Random rand = new Random();
+        while (mines.size() < numMines) {
+            int i = rand.nextInt(row);
+            int j = rand.nextInt(row);
+            mines.add(i + " " + j);
+        }
+    }
+
+    private int nearBombsCounter(int x, int y) {
+        int count = 0;
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                if (i >= 0 && i < row && j >= 0 && j < row) { // Ensure indices are within grid bounds
+                    if (mines.contains(i + " " + j)) {
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
     }
 }

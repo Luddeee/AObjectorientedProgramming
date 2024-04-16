@@ -22,7 +22,7 @@ public class grid {
     JLabel westText = new JLabel();
 
     JButton settingsBtn = new JButton("Settings");
-    JButton playBtn = new JButton("Play");
+    JButton restartBtn = new JButton("Restart");
     JButton exitBtn = new JButton("Exit");
 
     DefaultListModel<String> listModel = new DefaultListModel<>();
@@ -62,13 +62,13 @@ public class grid {
         eastTextPanel.setBorder(BorderFactory.createMatteBorder(0,1,0,0, Color.BLACK));
 
         //South
-        playBtn.addActionListener(e -> MineSweeper.load());
+        restartBtn.addActionListener(e -> mineSweeper.restart());
         settingsBtn.addActionListener(e -> new settings(mineSweeper));
         exitBtn.addActionListener(e -> System.exit(0));
         
 
         southTextPanel.setLayout(new BorderLayout());
-        southTextPanel.add(playBtn, BorderLayout.CENTER);
+        southTextPanel.add(restartBtn, BorderLayout.CENTER);
         southTextPanel.add(settingsBtn, BorderLayout.WEST);
         southTextPanel.add(exitBtn,BorderLayout.EAST);
         southTextPanel.setPreferredSize(new Dimension(frame.getWidth(),(int)(frame.getHeight()*0.1)));
