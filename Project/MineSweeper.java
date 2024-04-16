@@ -4,12 +4,12 @@ import java.awt.GridLayout;
 
 import javax.swing.*;
 
-public class MineSweeper{
+class MineSweeper{
     private JPanel mainPanel = new JPanel();
     private JButton[][] squares;
 
     private int numMines = 1; //Numbers of mines to exist in the game
-    int row = 8; //Number of rows to exist, (the number of squares to exist in the playing field) (the field will be a square thus row and col are equal)
+    int row = 24; //Number of rows to exist, (the number of squares to exist in the playing field) (the field will be a square thus row and col are equal)
 
     MineSweeper(){
         mainPanel.setLayout(new GridLayout(row, row));
