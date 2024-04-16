@@ -18,7 +18,7 @@ public class MineSweeper{
         for (int i = 0; i < squares.length; i++) {
             for (int j = 0; j < squares.length; j++) {
                 squares[i][j] = new JButton();
-                squares[i][j].setActionCommand(i + " " + j); //Determines the action the buttons should have
+                squares[i][j].setActionCommand(i + " " + j); //Determines the action the buttons should havea
                 mainPanel.add(squares[i][j]);
             }
         }
