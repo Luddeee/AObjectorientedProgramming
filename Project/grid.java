@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.Scanner;
 
 public class grid {
+    MineSweeper mineSweeper = new MineSweeper();
     JFrame frame = new JFrame("Minesweeper");
 
     JPanel northTextPanel = new JPanel();
@@ -27,7 +28,7 @@ public class grid {
     JList<String> highscorelist = new JList<>(listModel);
     JScrollPane highscroll = new JScrollPane(highscorelist);
 
-    JPanel centerPanel = new JPanel();
+    JPanel mainPanel = new JPanel();
 
     grid(){
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -49,7 +50,7 @@ public class grid {
         northTextPanel.setBorder(BorderFactory.createMatteBorder(0,0,1,0, Color.BLACK));
 
         //East
-        eastText.setText("Highscore");
+        eastText.setText("Highscores");
         eastText.setFont(new Font("Arial",Font.BOLD, (int)(frame.getWidth()*0.02)));
         eastText.setHorizontalAlignment(JLabel.CENTER);
         
@@ -82,14 +83,15 @@ public class grid {
         westTextPanel.setBorder(BorderFactory.createMatteBorder(0,0,0,1, Color.BLACK));
 
         //Center where most of the program lies
-        centerPanel.setLayout(new BorderLayout());
+       // centerPanel.setLayout(new BorderLayout());
 
         //Adding frame
         frame.add(northTextPanel, BorderLayout.NORTH);
         frame.add(eastTextPanel, BorderLayout.EAST);
         frame.add(southTextPanel, BorderLayout.SOUTH);
         frame.add(westTextPanel, BorderLayout.WEST);
-        frame.add(centerPanel, BorderLayout.CENTER);
+        frame.add(mineSweeper.getMainPanel(), BorderLayout.CENTER);
+        
         loadHighScores("Project/Highscores.txt"); //This may need to be changed before exporting project
         frame.setVisible(true);
     }
@@ -111,8 +113,7 @@ public class grid {
         eastTextPanel.add(highscroll, BorderLayout.CENTER);
     }
 
-    //public static void main(String[] args) {
-    //    new grid();
-    //}
-
+    /*void addMainPanel(){
+        mainPanel = MineSweeper.getMainPanel();
+    }*/
 }
