@@ -2,11 +2,16 @@ package Project;
 
 import java.awt.GridLayout;
 import javax.swing.*;
-import java.util.HashSet;
-import java.util.Random;
+import java.util.*;
 import java.awt.event.*;
 
-class MineSweeper{
+//import Project.MediumStrategy;
+//import Project.HardStrategy;
+
+public class MineSweeper implements Subject{
+    private List<Observer> observers = new ArrayList<>();
+    private GameStrategy gameStrategy;
+
     private JPanel mainPanel = new JPanel();
     private JButton[][] squares;
     private HashSet<String> mines = new HashSet<>();
@@ -19,8 +24,35 @@ class MineSweeper{
     int numMines = easymines; //Numbers of mines to exist in the game
     int row = easyrows; //Number of rows to exist, (the number of squares to exist in the playing field) (the field will be a square thus row and col are equal)
 
-    MineSweeper(){
+    public MineSweeper(){
+        setStrategy(new EasyStrategy());
         initializeGrid();
+    }
+
+    @Override
+    public void registerObserver(Observer o) {
+        if (!observers.contains(o)) {
+            observers.add(o);
+        }
+    }
+
+    @Override
+    public void removeObserver(Observer o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update();
+        }
+    }
+
+    public void setStrategy(GameStrategy strategy) {
+        this.gameStrategy = strategy;
+        this.gameStrategy.applySettings(this);
+        //notifyObservers();
+        restart();
     }
 
     public JPanel getMainPanel(){
@@ -31,7 +63,7 @@ class MineSweeper{
         //This will restart the whole game and all it's content with the settings currently equiped
         System.out.println("restarted"); //testing var
         try{
-            System.out.println("Difficulty is now: " + settings.getDifficulty());
+            //System.out.println("Difficulty is now: " + settings.getDifficulty());
         } catch(Exception e){
             System.out.println("No difficulty is set, reverting to \"Easy\"");
         }
@@ -40,23 +72,6 @@ class MineSweeper{
     }
 
     private void initializeGrid(){
-        try{
-        if((String)settings.getDifficulty()=="Easy"){
-            row = easyrows;
-            numMines = easymines;
-        }
-        else if((String)settings.getDifficulty()=="Medium"){
-            row = 14;
-            numMines = 25;
-        }
-        else if((String)settings.getDifficulty()=="Hard"){
-            row = 24;
-            numMines = 99;
-        }
-        }
-        catch(Exception e){
-            
-        }
         mainPanel.removeAll();
         mines.clear();
         mainPanel.setLayout(new GridLayout(row, row));
@@ -69,17 +84,12 @@ class MineSweeper{
         for (int i = 0; i < squares.length; i++) {
             for (int j = 0; j < squares.length; j++) {
                 squares[i][j] = new JButton();
-                squares[i][j].setActionCommand(i + " " + j); //Determines the action the buttons should havea
+                //squares[i][j].setActionCommand(i + " " + j); //Determines the action the buttons should havea
                 final int fi = i; //Final variables as to not tuch i and j (needed for nearBombsCounter())
                 final int fj = j;
                 squares[i][j].addMouseListener(new MouseAdapter() {
-                    @Override
                     public void mouseClicked(MouseEvent e) {
-                        if (SwingUtilities.isRightMouseButton(e)) {
-                            toggleFlag(fi, fj);
-                        } else if (SwingUtilities.isLeftMouseButton(e)) {
-                            showButton(fi, fj);
-                        }
+                        handleMouseClick(e, fi, fj);
                     }
                 });
                 //squares[i][j].setActionCommand(fi + " " + fj);
@@ -88,6 +98,14 @@ class MineSweeper{
         }
         mainPanel.revalidate();
         mainPanel.repaint();
+    }
+
+    private void handleMouseClick(MouseEvent e, int x, int y) {
+        if (SwingUtilities.isRightMouseButton(e)) {
+            toggleFlag(x, y);
+        } else if (SwingUtilities.isLeftMouseButton(e)) {
+            showButton(x, y);
+        }
     }
 
     void saveHighscore(){
@@ -152,5 +170,12 @@ class MineSweeper{
                 button.setText("");
             }
         }
+    }
+
+    public void setDifficulty(String difficulty, int rows, int mines) {
+        this.row = rows;
+        this.numMines = mines;
+        System.out.println("Difficulty is now: " + difficulty + " Rows:" + rows + " Mines:" + mines);
+        restart(); // Restart the game with new settings
     }
 }
