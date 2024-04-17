@@ -1,9 +1,14 @@
 package Project;
 
 import java.awt.GridLayout;
+import java.awt.Image;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.util.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class MineSweeper implements Subject{
     private List<Observer> observers = new ArrayList<>();
@@ -14,9 +19,12 @@ public class MineSweeper implements Subject{
     private HashSet<String> mines = new HashSet<>();
     private boolean[][] visited;
     private boolean[][] flagged;
+    BufferedImage originalImage,bombImage2,flag2;
+    Image scaledImage,bombImage,flag;
 
     int easymines = 10;
     int easyrows = 8;
+    int wincounter;
 
     int numMines = easymines; //Numbers of mines to exist in the game
     int row = easyrows; //Number of rows to exist, (the number of squares to exist in the playing field) (the field will be a square thus row and col are equal)
@@ -83,7 +91,8 @@ public class MineSweeper implements Subject{
                 squares[i][j] = new JButton();
                 //squares[i][j].setActionCommand(i + " " + j); //Determines the action the buttons should havea
                 final int fi = i; //Final variables as to not tuch i and j (needed for nearBombsCounter())
-                final int fj = j;
+                final int fj = j;;
+                squares[i][j].setContentAreaFilled(false);
                 squares[i][j].addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent e) {
                         handleMouseClick(e, fi, fj);
@@ -138,16 +147,49 @@ public class MineSweeper implements Subject{
         if (x < 0 || x >= row || y < 0 || y >= row || visited[x][y]) {
             return; //Error handling if we are out of bounds
         }
-
+        String fileName;
         visited[x][y] = true;
         int bombsNearby = nearBombsCounter(x, y);
         JButton button = squares[x][y];
-        button.setText(Integer.toString(bombsNearby));
-        button.setEnabled(false);
+        if (bombsNearby == 0) {
+            fileName = "blaa.png";
+        } else if (bombsNearby >= 1 && bombsNearby <= 8) {
+            fileName = "number-" + bombsNearby + ".png";
+        } else {
+            // Handle invalid number of nearby bombs
+            return;
+        }
+        try {
+            originalImage = ImageIO.read(new File("Project/interfaceIcons/" + fileName));
+            scaledImage = originalImage.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
+            button.setIcon(new ImageIcon(scaledImage));
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle the exception gracefully, maybe show an error message
+        }
+        //button.setText(Integer.toString(bombsNearby));
+        //button.setEnabled(false);
 
         if (mines.contains(x + " " + y)) {
-            button.setText("BOOM");
+            //button.setText("BOOM");
+            try {
+                bombImage2 = ImageIO.read(new File("Project/interfaceIcons/bomb.png"));
+                bombImage = bombImage2.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
+                button.setIcon(new ImageIcon(bombImage));
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Handle the exception gracefully, maybe show an error message
+            }
             JOptionPane.showMessageDialog(mainPanel, "You hit a mine!");
+            for(int i = 0; i < row; i++){
+                for(int j = 0; j < row; j++){
+                    if (mines.contains(i + " " + j)){
+                        button = squares[i][j];
+                        button.setIcon(new ImageIcon(bombImage));
+                        //button.setEnabled(false); //same principle.
+                    }
+                }
+            }
         } else if (bombsNearby == 0) {
             // Recursively reveal adjacent squaress
             for (int i = -1; i <= 1; i++) {
@@ -156,15 +198,27 @@ public class MineSweeper implements Subject{
                 }
             }
         }
+        wincounter++;
+        if(wincounter == ((row*row)-numMines)){
+            JOptionPane.showMessageDialog(mainPanel, "You Win!");
+        }
     }
     private void toggleFlag(int x, int y) {
         if (!visited[x][y]) { // Prevent flagging after revealing
             flagged[x][y] = !flagged[x][y]; // Toggle flag status
             JButton button = squares[x][y];
             if (flagged[x][y]) {
-                button.setText("F");
+                try {
+                    flag2 = ImageIO.read(new File("Project/interfaceIcons/flag.png"));
+                    flag = flag2.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
+                    button.setIcon(new ImageIcon(flag));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Failed to create a flag");
+                }
             } else {
-                button.setText("");
+                //button.setText("");
+                button.setIcon(null);
             }
         }
     }
