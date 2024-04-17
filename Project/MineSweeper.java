@@ -5,9 +5,6 @@ import javax.swing.*;
 import java.util.*;
 import java.awt.event.*;
 
-//import Project.MediumStrategy;
-//import Project.HardStrategy;
-
 public class MineSweeper implements Subject{
     private List<Observer> observers = new ArrayList<>();
     private GameStrategy gameStrategy;
