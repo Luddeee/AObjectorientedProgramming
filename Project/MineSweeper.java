@@ -77,6 +77,7 @@ public class MineSweeper implements Subject{
     }
 
     private void initializeGrid(){
+        wincounter = 0;
         mainPanel.removeAll();
         mines.clear();
         mainPanel.setLayout(new GridLayout(row, row));
