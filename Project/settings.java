@@ -2,8 +2,7 @@ package Project;
 import java.awt.*;
 import javax.swing.*;
 
-public class settings implements Observer{
-    private MineSweeper mineSweeper;
+public class settings /*extends grid*/{
     JDialog frame1 = new JDialog();
 
     JPanel northTextPanel2 = new JPanel();
@@ -20,25 +19,13 @@ public class settings implements Observer{
     JButton closeButton2 = new JButton("Confirm");
 
     JLabel difflabel = new JLabel();
-    private JComboBox<String> difficulty;
+    private static JComboBox<String> difficulty;
 
     JLabel optlabel = new JLabel();
     JComboBox<String> opt;
 
     JPanel panel = new JPanel();
-
-    @Override
-    public void update() {
-        // Update UI components based on game state changes
-    }
-    public settings(MineSweeper mineSweeper){
-        this.mineSweeper = mineSweeper;
-        mineSweeper.registerObserver(this);
-        initializeSettingsUI();
-        
-    }
-
-    private void initializeSettingsUI() {
+    settings(MineSweeper minesweeper){
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
         frame1.setSize((int)(screenSize.width * 0.2), (int)(screenSize.height*0.3));
@@ -70,7 +57,6 @@ public class settings implements Observer{
         //Center, with the content
         String[] difficultyopt = {"Easy", "Medium", "Hard"};
         difficulty = new JComboBox<>(difficultyopt);
-        difficulty.addActionListener(e -> changeDifficulty());
 
         String[] opti = {"opt1", "opt2", "opt3"};
         opt = new JComboBox<>(opti);
@@ -87,7 +73,7 @@ public class settings implements Observer{
 
         //South
         closeButton2.addActionListener(e -> {
-            mineSweeper.restart();
+            minesweeper.restart();
             frame1.dispose();
         });
         bottomPanel2.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -102,22 +88,7 @@ public class settings implements Observer{
         frame1.setAlwaysOnTop(true);
     }
 
-    private void changeDifficulty(){
-        String selectedDifficulty = (String) difficulty.getSelectedItem();
-        switch (selectedDifficulty) {
-            case "Easy":
-                mineSweeper.setStrategy(new EasyStrategy());
-                break;
-            case "Medium":
-                mineSweeper.setStrategy(new MediumStratergy());
-                break;
-            case "Hard":
-                mineSweeper.setStrategy(new HardStratergy());
-                break;
-        }
-    }
-
-    public String getDifficulty() {
+    public static String getDifficulty() {
         return (String)difficulty.getSelectedItem();
     }
 }
