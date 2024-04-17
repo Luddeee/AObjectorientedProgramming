@@ -4,7 +4,7 @@ import java.awt.*;
 import java.io.File;
 import java.util.Scanner;
 
-public class grid {
+public class grid implements Observer{
     MineSweeper mineSweeper;
     HowTo howTo;
     JFrame frame = new JFrame("Minesweeper");
@@ -32,6 +32,7 @@ public class grid {
     JPanel mainPanel = new JPanel();
     grid(){
         mineSweeper = new MineSweeper();
+        mineSweeper.registerObserver(this);
         howTo = new HowTo();
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
@@ -111,5 +112,14 @@ public class grid {
             System.out.println("Current working directory: " + new File(".").getAbsolutePath());
         }
         eastTextPanel.add(highscroll, BorderLayout.CENTER);
+    }
+
+    @Override
+    public void update() {
+        refreshUI();
+    }
+
+    private void refreshUI() {
+        frame.repaint();
     }
 }
