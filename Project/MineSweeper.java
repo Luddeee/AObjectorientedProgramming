@@ -149,7 +149,7 @@ public class MineSweeper implements Subject{
         button.setEnabled(false);
 
         if (mines.contains(x + " " + y)) {
-            button.setText("BOMB");
+            button.setText("BOOM");
             JOptionPane.showMessageDialog(mainPanel, "You hit a mine!");
         } else if (bombsNearby == 0) {
             // Recursively reveal adjacent squaress
