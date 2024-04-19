@@ -20,7 +20,7 @@ public class PrettyPrintVisitor<T> implements TreeVisitor<T, Integer, Integer> {
     private void printWithIndent(T value, int depth) {
         StringBuilder indent = new StringBuilder();
         for (int i = 0; i < depth; i++) {
-            indent.append("   "); // Three spaces for each level
+            indent.append("   ");
         }
         System.out.println(indent.toString() + "|-- " + value);
     }
