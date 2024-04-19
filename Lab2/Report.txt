@@ -4,3 +4,6 @@ To then write a complete application the application programmer needs to impleme
 classes centerComponent and button.
 
 Exercise 10.
+The prsenter framework utilizes slideshow and picturecomponent to implement this slideshow. The picturecomponent class extends JComponent to utilize it's functions. 
+This then gives us the ability to implement images into the slideshow using the inbuilt repaint method. The slideshow then extends presenter to utilize all it's functionality but
+adds the picturecomponents. The classes WindowConstant, TextArea, and BorderLayout has also been added to the Presenter class 
