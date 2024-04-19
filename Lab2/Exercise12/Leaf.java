@@ -1,7 +1,5 @@
 package Exercise12;
 
-import java.util.*;
-
 public class Leaf<T> implements Tree<T> {
 
 	T value;
