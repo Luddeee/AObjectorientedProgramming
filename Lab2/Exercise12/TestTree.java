@@ -42,7 +42,7 @@ public class TestTree {
 
 		PrettyPrintVisitor<String> visitor3 = new PrettyPrintVisitor<>();
 
-		System.out.println();
-		t.accept(visitor3, 0);
+		System.out.println(t.accept(visitor3,0));
+		
 	}
 }
