@@ -19,43 +19,46 @@ public class Saver {
         Element element = clas.getAnnotation(Element.class);
         StringBuilder xml = new StringBuilder();
         addIndent(xml, jumps);
-        xml.append(String.format("<%s", element.name()));
+        xml.append("<").append(element.name());
 
         // Handling fields and properties
+        StringBuilder attributes = new StringBuilder();
         for (Method method : clas.getDeclaredMethods()) {
             if (method.isAnnotationPresent(ElementField.class)) {
                 ElementField field = method.getAnnotation(ElementField.class);
                 Object value = method.invoke(o);
-                xml.append(String.format(" %s=\"%s\"", field.name(), value.toString()));
+                attributes.append(String.format(" %s=\"%s\"", field.name(), value));
+                //xml.append(String.format(" %s=\"%s\"", field.name(), value.toString()));
             }
         }
-
-        xml.append(">\n");
+        xml.append(attributes);
 
         // Handling sub-elements
         boolean hasSubelements = false;
+        StringBuilder subElementsXml = new StringBuilder();
         for (Method method : clas.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(SubElements.class)) {
-                hasSubelements = true;
-                SubElements sub = method.getAnnotation(SubElements.class);
+            if (method.isAnnotationPresent(SubElements.class) && method.invoke(o) != null) {               
                 Object[] subObjects = (Object[]) method.invoke(o);
-                addIndent(xml, jumps + 1);
-                xml.append(String.format("<%s>\n", sub.name()));
-                if (subObjects != null) {
+                //addIndent(xml, jumps + 1);
+                if (subObjects.length > 0) {
+                    hasSubelements = true;
+                    SubElements sub = method.getAnnotation(SubElements.class);
+                    subElementsXml.append(String.format("\n%s<%s>\n", indent(jumps + 1), sub.name()));
                     for (Object subObj : subObjects) {
-                        xml.append(save(subObj, jumps + 2)); // Recursive call for nested objects with increased jumps
+                        subElementsXml.append(save(subObj, jumps + 2)); // Recursive call for nested objects with increased jumps
                     }
+                    //subElementsXml.append(String.format("%s</%s>\n", indent(jumps + 1), sub.name()));
+                    subElementsXml.append(indent(jumps + 1)).append("</").append(sub.name()).append(">");
                 }
-                addIndent(xml, jumps + 1);
-                xml.append(String.format("</%s>\n", sub.name()));
             }
         }
 
-        if (!hasSubelements) {
-            xml.append("\n");
+        if (hasSubelements) {
+            xml.append(">").append(subElementsXml);
+            xml.append("\n").append(indent(jumps)).append("</").append(element.name()).append(">\n");
+        } else {
+            xml.append("/>\n");
         }
-        addIndent(xml, jumps);
-        xml.append(String.format("</%s>\n", element.name()));
 
         return xml.toString();
     }
@@ -64,5 +67,8 @@ public class Saver {
         for (int i = 0; i < jumps; i++) {
             xml.append("  ");
         }
+    }
+    private String indent(int jumps) {
+        return "  ".repeat(jumps);
     }
 }
