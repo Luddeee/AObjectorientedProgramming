@@ -5,9 +5,10 @@ import java.io.File;
 import java.util.Scanner;
 
 public class grid implements Observer{
-    MineSweeper mineSweeper;
+    //MineSweeper mineSweeper;
     HowTo howTo;
     JFrame frame = new JFrame("Minesweeper");
+    PrevGameState prevGameState;
 
     JPanel northTextPanel = new JPanel();
     JLabel northText = new JLabel();
@@ -24,15 +25,19 @@ public class grid implements Observer{
     JButton settingsBtn = new JButton("Settings");
     JButton restartBtn = new JButton("Restart");
     JButton exitBtn = new JButton("Exit");
+    JButton replayDebugBtn = new JButton("Replay/Debug");
 
     DefaultListModel<String> listModel = new DefaultListModel<>();
     JList<String> highscorelist = new JList<>(listModel);
     JScrollPane highscroll = new JScrollPane(highscorelist);
 
     JPanel mainPanel = new JPanel();
-    grid(){
-        mineSweeper = new MineSweeper();
+    grid(MineSweeper mineSweeper){
+        //mineSweeper = new MineSweeper();
         mineSweeper.registerObserver(this);
+
+        prevGameState = new PrevGameState(mineSweeper);
+
         howTo = new HowTo();
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
@@ -63,15 +68,18 @@ public class grid implements Observer{
         eastTextPanel.setBorder(BorderFactory.createMatteBorder(0,1,0,0, Color.BLACK));
 
         //South
+        int restartcounter = 0;
         restartBtn.addActionListener(e -> mineSweeper.restart());
         settingsBtn.addActionListener(e -> new settings(mineSweeper));
-        exitBtn.addActionListener(e -> System.exit(0));
+        //exitBtn.addActionListener(e -> System.exit(0));
+        replayDebugBtn.addActionListener(e -> prevGameState.printCapturedStates());
         
 
         southTextPanel.setLayout(new BorderLayout());
         southTextPanel.add(restartBtn, BorderLayout.CENTER);
         southTextPanel.add(settingsBtn, BorderLayout.WEST);
-        southTextPanel.add(exitBtn,BorderLayout.EAST);
+        //southTextPanel.add(exitBtn,BorderLayout.EAST);
+        southTextPanel.add(replayDebugBtn, BorderLayout.EAST);
         southTextPanel.setPreferredSize(new Dimension(frame.getWidth(),(int)(frame.getHeight()*0.1)));
         southTextPanel.setBorder(BorderFactory.createMatteBorder(1,0,0,0, Color.BLACK));
 

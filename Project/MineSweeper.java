@@ -65,8 +65,10 @@ public class MineSweeper implements Subject{
         return mainPanel;
     }
 
+    int restartcounter = 0;
     public void restart(){
         //This will restart the whole game and all it's content with the settings currently equiped
+        restartcounter++;
         System.out.println("restarted"); //testing var
         try{
             //System.out.println("Difficulty is now: " + settings.getDifficulty());
@@ -75,6 +77,11 @@ public class MineSweeper implements Subject{
         }
         isLost = false;
         initializeGrid();
+        notifyObservers();
+    }
+
+    public int getrestartcount(){
+        return restartcounter;
     }
 
     private void initializeGrid(){
@@ -109,10 +116,13 @@ public class MineSweeper implements Subject{
     }
 
     private void handleMouseClick(MouseEvent e, int x, int y) {
-        if (SwingUtilities.isRightMouseButton(e)) {
-            toggleFlag(x, y);
-        } else if (SwingUtilities.isLeftMouseButton(e)) {
-            showButton(x, y);
+        if(isLost==false){
+            if (SwingUtilities.isRightMouseButton(e)) {
+                toggleFlag(x, y);
+            } else if (SwingUtilities.isLeftMouseButton(e)) {
+                showButton(x, y);
+            }
+            notifyObservers();
         }
     }
 
@@ -146,47 +156,76 @@ public class MineSweeper implements Subject{
     }
 
     private void showButton(int x, int y) {
-        if (isLost==false) {
-            if (x < 0 || x >= row || y < 0 || y >= row || visited[x][y]) {
-                return; //Error handling if we are out of bounds
-            }
-            String fileName;
-            visited[x][y] = true;
-            int bombsNearby = nearBombsCounter(x, y);
-            JButton button = squares[x][y];
-            if (bombsNearby == 0) {
-                if(!mines.contains(x + " " + y)){playSound("Project/soundFiles/plingsound.wav");}
-                fileName = "blaa.png";
-            } else if (bombsNearby >= 1 && bombsNearby <= 8) {
-                if(!mines.contains(x + " " + y)){playSound("Project/soundFiles/plingsound.wav");}
-                fileName = "number-" + bombsNearby + ".png";
-            } else {
-                // Handle invalid number of nearby bombs
-                return;
-            }
+        if (x < 0 || x >= row || y < 0 || y >= row || visited[x][y]) {
+            return; //Error handling if we are out of bounds
+        }
+        String fileName;
+        visited[x][y] = true;
+        int bombsNearby = nearBombsCounter(x, y);
+        JButton button = squares[x][y];
+        if (bombsNearby == 0) {
+            if(!mines.contains(x + " " + y)){playSound("Project/soundFiles/plingsound.wav");}
+            fileName = "blaa.png";
+        } else if (bombsNearby >= 1 && bombsNearby <= 8) {
+            if(!mines.contains(x + " " + y)){playSound("Project/soundFiles/plingsound.wav");}
+            fileName = "number-" + bombsNearby + ".png";
+        } else {
+            // Handle invalid number of nearby bombs
+            return;
+        }
+        try {
+            originalImage = ImageIO.read(new File("Project/interfaceIcons/" + fileName));
+            scaledImage = originalImage.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
+            button.setIcon(new ImageIcon(scaledImage));
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle the exception gracefully, maybe show an error message
+        }
+        //button.setText(Integer.toString(bombsNearby));
+        //button.setEnabled(false);
+        if (mines.contains(x + " " + y)) {
+            //button.setText("BOOM");
             try {
-                originalImage = ImageIO.read(new File("Project/interfaceIcons/" + fileName));
-                scaledImage = originalImage.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
-                button.setIcon(new ImageIcon(scaledImage));
+                bombImage2 = ImageIO.read(new File("Project/interfaceIcons/bomb.png"));
+                bombImage = bombImage2.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
+                button.setIcon(new ImageIcon(bombImage));
             } catch (Exception e) {
                 e.printStackTrace();
                 // Handle the exception gracefully, maybe show an error message
             }
-            //button.setText(Integer.toString(bombsNearby));
-            //button.setEnabled(false);
-
-            if (mines.contains(x + " " + y)) {
+            playSound("Project/soundFiles/boomsound.wav");
+            JOptionPane.showMessageDialog(mainPanel, "You hit a mine!");
+            isLost = true;
+            for(int i = 0; i < row; i++){
+                for(int j = 0; j < row; j++){
+                    if (mines.contains(i + " " + j)){
+                        button = squares[i][j];
+                        button.setIcon(new ImageIcon(bombImage));
+                        //button.setEnabled(false); //same principle.
+                    }
+                }
+            }
+        } else if (bombsNearby == 0) {
+            // Recursively reveal adjacent squaress
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    showButton(x + i, y + j);
+                }
+            }
+        }
+        wincounter++;
+        if(isLost == false){
+            if(wincounter == ((row*row)-numMines)){
                 //button.setText("BOOM");
                 try {
                     bombImage2 = ImageIO.read(new File("Project/interfaceIcons/bomb.png"));
                     bombImage = bombImage2.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
-                    button.setIcon(new ImageIcon(bombImage));
                 } catch (Exception e) {
                     e.printStackTrace();
                     // Handle the exception gracefully, maybe show an error message
                 }
-                playSound("Project/soundFiles/boomsound.wav");
-                JOptionPane.showMessageDialog(mainPanel, "You hit a mine!");
+                playSound("Project/soundFiles/winsound.wav");
+                JOptionPane.showMessageDialog(mainPanel, "You Win!");
                 isLost = true;
                 for(int i = 0; i < row; i++){
                     for(int j = 0; j < row; j++){
@@ -195,41 +234,10 @@ public class MineSweeper implements Subject{
                             button.setIcon(new ImageIcon(bombImage));
                             //button.setEnabled(false); //same principle.
                         }
-                }
-            }
-            } else if (bombsNearby == 0) {
-                // Recursively reveal adjacent squaress
-                for (int i = -1; i <= 1; i++) {
-                    for (int j = -1; j <= 1; j++) {
-                        showButton(x + i, y + j);
                     }
                 }
             }
-            wincounter++;
-            if(isLost == false){
-                if(wincounter == ((row*row)-numMines)){
-                    //button.setText("BOOM");
-                    try {
-                        bombImage2 = ImageIO.read(new File("Project/interfaceIcons/bomb.png"));
-                        bombImage = bombImage2.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        // Handle the exception gracefully, maybe show an error message
-                    }
-                    playSound("Project/soundFiles/winsound.wav");
-                    JOptionPane.showMessageDialog(mainPanel, "You Win!");
-                    isLost = true;
-                    for(int i = 0; i < row; i++){
-                        for(int j = 0; j < row; j++){
-                            if (mines.contains(i + " " + j)){
-                                button = squares[i][j];
-                                button.setIcon(new ImageIcon(bombImage));
-                                //button.setEnabled(false); //same principle.
-                            }
-                        }
-                    }
-                }
-            }
+            notifyObservers();
         }
     }
     private void toggleFlag(int x, int y) {
@@ -250,13 +258,13 @@ public class MineSweeper implements Subject{
                 button.setIcon(null);
             }
         }
+        notifyObservers();
     }
 
     public void setDifficulty(String difficulty, int rows, int mines) {
         this.row = rows;
         this.numMines = mines;
         System.out.println("Difficulty is now: " + difficulty + " Rows:" + rows + " Mines:" + mines);
-        restart(); // Restart the game with new settings
     }
 
     public void playSound(String soundFileName) {
@@ -269,5 +277,23 @@ public class MineSweeper implements Subject{
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getRow(){
+        return row;
+    }
+
+    public String getCellStatus(int x, int y) {
+        if (visited[x][y]) {
+            if (mines.contains(x + " " + y)) {
+                return "M"; //if cell is a mine
+            } else {
+                int bombs = nearBombsCounter(x, y);
+                return Integer.toString(bombs); // Return the number of bombs nearby
+            }
+        } else if (flagged[x][y]) {
+            return "F"; //if cell is flagged
+        }
+        return "U"; //if cell has not been opened
     }
 }
