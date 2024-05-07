@@ -9,20 +9,19 @@ public class Saver {
     }
 
     private String save(Object o, int jumps) throws IllegalAccessException, InvocationTargetException {
-        if (o == null) return "";
+        if (o == null) return ""; //if no objects exist
 
         Class<?> clas = o.getClass();
         if (!clas.isAnnotationPresent(Element.class)) {
-            System.out.println(clas.getName() + "have to be annotated");
+            System.out.println(clas.getName() + "have to be annotated"); //If no annotation exists //errorhandling
         }
 
         Element element = clas.getAnnotation(Element.class);
-        StringBuilder xml = new StringBuilder();
-        addIndent(xml, jumps);
+        StringBuilder xml = new StringBuilder(); //Creates the main string
+        addIndent(xml, jumps); //Adds indents to make output pretty
         xml.append("<").append(element.name());
 
-        // Handling fields and properties
-        StringBuilder attributes = new StringBuilder();
+        StringBuilder attributes = new StringBuilder(); //creates a stringbuilder
         for (Method method : clas.getDeclaredMethods()) {
             if (method.isAnnotationPresent(ElementField.class)) {
                 ElementField field = method.getAnnotation(ElementField.class);
@@ -33,9 +32,8 @@ public class Saver {
         }
         xml.append(attributes);
 
-        // Handling sub-elements
         boolean hasSubelements = false;
-        StringBuilder subElementsXml = new StringBuilder();
+        StringBuilder subElements = new StringBuilder(); //Creates a string for the subelements
         for (Method method : clas.getDeclaredMethods()) {
             if (method.isAnnotationPresent(SubElements.class) && method.invoke(o) != null) {               
                 Object[] subObjects = (Object[]) method.invoke(o);
@@ -43,18 +41,18 @@ public class Saver {
                 if (subObjects.length > 0) {
                     hasSubelements = true;
                     SubElements sub = method.getAnnotation(SubElements.class);
-                    subElementsXml.append(String.format("\n%s<%s>\n", indent(jumps + 1), sub.name()));
+                    subElements.append(String.format("\n%s<%s>\n", indent(jumps + 1), sub.name()));
                     for (Object subObj : subObjects) {
-                        subElementsXml.append(save(subObj, jumps + 2)); // Recursive call for nested objects with increased jumps
+                        subElements.append(save(subObj, jumps + 2)); //recursivly calls function for subelements
                     }
-                    //subElementsXml.append(String.format("%s</%s>\n", indent(jumps + 1), sub.name()));
-                    subElementsXml.append(indent(jumps + 1)).append("</").append(sub.name()).append(">");
+                    //subElements.append(String.format("%s</%s>\n", indent(jumps + 1), sub.name()));
+                    subElements.append(indent(jumps + 1)).append("</").append(sub.name()).append(">");
                 }
             }
         }
 
         if (hasSubelements) {
-            xml.append(">").append(subElementsXml);
+            xml.append(">").append(subElements);
             xml.append("\n").append(indent(jumps)).append("</").append(element.name()).append(">\n");
         } else {
             xml.append("/>\n");
@@ -63,12 +61,12 @@ public class Saver {
         return xml.toString();
     }
 
-    private void addIndent(StringBuilder xml, int jumps) {
+    private void addIndent(StringBuilder xml, int jumps) { //Adds indents to the string to create a pretty output
         for (int i = 0; i < jumps; i++) {
             xml.append("  ");
         }
     }
-    private String indent(int jumps) {
+    private String indent(int jumps) { //Allows us to indent other than to a set string
         return "  ".repeat(jumps);
     }
 }
