@@ -1,7 +1,10 @@
 package Project;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
@@ -31,8 +34,11 @@ public class MineSweeper implements Subject{
     int numMines = easymines; //Numbers of mines to exist in the game
     int row = easyrows; //Number of rows to exist, (the number of squares to exist in the playing field) (the field will be a square thus row and col are equal)
 
+    private int currXPlace = 0, currYPlace = 0;
+
     public MineSweeper(){
         setStrategy(new EasyStrategy());
+        setGlobalListeners();
     }
 
     @Override
@@ -98,6 +104,7 @@ public class MineSweeper implements Subject{
         for (int i = 0; i < squares.length; i++) {
             for (int j = 0; j < squares.length; j++) {
                 squares[i][j] = new JButton();
+                squares[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 //squares[i][j].setActionCommand(i + " " + j); //Determines the action the buttons should havea
                 final int fi = i; //Final variables as to not tuch i and j (needed for nearBombsCounter())
                 final int fj = j;;
@@ -111,6 +118,7 @@ public class MineSweeper implements Subject{
                 mainPanel.add(squares[i][j]);
             }
         }
+        updateFocus();
         mainPanel.revalidate();
         mainPanel.repaint();
     }
@@ -125,6 +133,46 @@ public class MineSweeper implements Subject{
             notifyObservers();
         }
     }
+
+    private void updateFocus() {
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < row; j++) {
+                if (i == currXPlace && j == currYPlace) {
+                    squares[i][j].setBorder(BorderFactory.createLineBorder(Color.RED, 2)); // Highlight border for focus
+                } else {
+                    squares[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                }
+            }
+        }
+    }
+
+    private void setGlobalListeners() {
+        KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        manager.addKeyEventDispatcher(new KeyEventDispatcher() {
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent e) {
+                if (e.getID() == KeyEvent.KEY_PRESSED) {
+                    switch (e.getKeyCode()) {
+                        case KeyEvent.VK_LEFT:
+                            currYPlace = Math.max(0, currYPlace - 1); break;
+                        case KeyEvent.VK_RIGHT:
+                            currYPlace = Math.min(row - 1, currYPlace + 1); break;
+                        case KeyEvent.VK_UP:
+                            currXPlace = Math.max(0, currXPlace - 1); break;
+                        case KeyEvent.VK_DOWN:
+                            currXPlace = Math.min(row - 1, currXPlace + 1); break;
+                        case KeyEvent.VK_X:
+                            showButton(currXPlace, currYPlace); break;
+                        case KeyEvent.VK_Z:
+                            toggleFlag(currXPlace, currYPlace); break;
+                    }
+                    updateFocus();
+                }
+                return false;
+            }
+        });
+    }
+    
 
     void saveHighscore(){
         //Saves the time of completion and difficulty when winning to a text file, (the text file can then be loaded in)
