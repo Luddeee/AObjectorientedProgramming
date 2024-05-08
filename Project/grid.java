@@ -68,7 +68,6 @@ public class grid implements Observer{
         eastTextPanel.setBorder(BorderFactory.createMatteBorder(0,1,0,0, Color.BLACK));
 
         //South
-        int restartcounter = 0;
         restartBtn.addActionListener(e -> mineSweeper.restart());
         settingsBtn.addActionListener(e -> new settings(mineSweeper));
         //exitBtn.addActionListener(e -> System.exit(0));
