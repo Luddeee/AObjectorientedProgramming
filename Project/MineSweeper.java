@@ -16,7 +16,16 @@ import java.io.*;
 
 public class MineSweeper implements Subject{
     private List<Observer> observers = new ArrayList<>();
+    private HighScoresManager highScoresManager;
     private GameStrategy gameStrategy;
+    
+    public boolean gridActive = false;
+    String currdifficulty;
+    int tester1337 = 0;
+    int tester1338 = 1;
+
+    private long startTime;
+    private long endTime;
 
     private JPanel mainPanel = new JPanel();
     private JButton[][] squares;
@@ -38,6 +47,7 @@ public class MineSweeper implements Subject{
 
     public MineSweeper(){
         setStrategy(new EasyStrategy());
+        highScoresManager = new HighScoresManager();
         setGlobalListeners();
     }
 
@@ -75,6 +85,7 @@ public class MineSweeper implements Subject{
     public void restart(){
         //This will restart the whole game and all it's content with the settings currently equiped
         restartcounter++;
+        startTime = System.currentTimeMillis();
         System.out.println("restarted"); //testing var
         try{
             //System.out.println("Difficulty is now: " + settings.getDifficulty());
@@ -212,10 +223,10 @@ public class MineSweeper implements Subject{
         int bombsNearby = nearBombsCounter(x, y);
         JButton button = squares[x][y];
         if (bombsNearby == 0) {
-            if(!mines.contains(x + " " + y)){playSound("Project/soundFiles/plingsound.wav");}
+            //if(!mines.contains(x + " " + y)){playSound("Project/soundFiles/plingsound.wav");}
             fileName = "blaa.png";
         } else if (bombsNearby >= 1 && bombsNearby <= 8) {
-            if(!mines.contains(x + " " + y)){playSound("Project/soundFiles/plingsound.wav");}
+            //if(!mines.contains(x + " " + y)){playSound("Project/soundFiles/plingsound.wav");}
             fileName = "number-" + bombsNearby + ".png";
         } else {
             // Handle invalid number of nearby bombs
@@ -241,7 +252,7 @@ public class MineSweeper implements Subject{
                 e.printStackTrace();
                 // Handle the exception gracefully, maybe show an error message
             }
-            playSound("Project/soundFiles/boomsound.wav");
+            //playSound("Project/soundFiles/boomsound.wav");
             JOptionPane.showMessageDialog(mainPanel, "You hit a mine!");
             isLost = true;
             for(int i = 0; i < row; i++){
@@ -272,8 +283,11 @@ public class MineSweeper implements Subject{
                     e.printStackTrace();
                     // Handle the exception gracefully, maybe show an error message
                 }
-                playSound("Project/soundFiles/winsound.wav");
-                JOptionPane.showMessageDialog(mainPanel, "You Win!");
+                //playSound("Project/soundFiles/winsound.wav");
+                endTime = System.currentTimeMillis();
+                long elapsedTime = endTime - startTime;
+                String name = JOptionPane.showInputDialog("YOU Win! Enter your name:");
+                saveHighscore(elapsedTime,name);
                 isLost = true;
                 for(int i = 0; i < row; i++){
                     for(int j = 0; j < row; j++){
@@ -310,12 +324,18 @@ public class MineSweeper implements Subject{
     }
 
     public void setDifficulty(String difficulty, int rows, int mines) {
+        currdifficulty = difficulty;
+        String test ="Project/Highscores" + currdifficulty + ".txt";
+        System.out.println(test);
+        if(true == gridActive){
+            grid.getInstance().reloadHighScores("Project/Highscores" + currdifficulty + ".txt");
+        }
         this.row = rows;
         this.numMines = mines;
         System.out.println("Difficulty is now: " + difficulty + " Rows:" + rows + " Mines:" + mines);
     }
 
-    public void playSound(String soundFileName) {
+    /*public void playSound(String soundFileName) {
         try {
             File soundFile = new File(soundFileName);
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
@@ -325,7 +345,7 @@ public class MineSweeper implements Subject{
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
-    }
+    } */
 
     public int getRow(){
         return row;
@@ -343,5 +363,48 @@ public class MineSweeper implements Subject{
             return "F"; //if cell is flagged
         }
         return "U"; //if cell has not been opened
+    }
+    public void revealBombPosition() {
+        int x = 0;
+        int y = 0;
+        JButton button = squares[x][y];
+        boolean OneBomb = true;
+        tester1337 = 0;
+        try {
+            bombImage2 = ImageIO.read(new File("Project/interfaceIcons/bomb.png"));
+            bombImage = bombImage2.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle the exception gracefully, maybe show an error message
+        }
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < row; j++){
+                if (mines.contains(i + " " + j) && (OneBomb == true)){
+                    tester1337++;
+                    if(tester1337 == tester1338){
+                        OneBomb = false;
+                    }
+                    button = squares[i][j];
+                    button.setIcon(new ImageIcon(bombImage));
+                    //button.setEnabled(false); //same principle.
+                }
+            }
+        }
+        OneBomb = false;
+        tester1338++;
+    }
+
+    private void saveHighscore(long elapsedTime, String name) {
+        // Ensure highScoresManager is properly initialized
+        if (highScoresManager != null) {
+            highScoresManager.updateHighScores("Project/Highscores.txt", name, elapsedTime);
+            System.err.println(elapsedTime);
+            // Reload high scores in the grid
+            String test ="Project/Highscores" + currdifficulty + ".txt";
+            System.out.println(test);
+            grid.getInstance().reloadHighScores("Project/Highscores" + currdifficulty + ".txt");
+        } else {
+            System.err.println("Error: highScoresManager is not initialized.");
+        }
     }
 }
