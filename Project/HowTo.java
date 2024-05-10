@@ -12,9 +12,10 @@ public class HowTo {
         imageFiles = new File[] { new File("Project/interfaceIcons/left-click.png"),
             new File("Project/interfaceIcons/right-click.png"),
                 new File("Project/interfaceIcons/letter-x.png"),
-                new File("Project/interfaceIcons/letter-z.png"),};
+                new File("Project/interfaceIcons/letter-z.png"),
+                new File("Project/interfaceIcons/buttons.png"),};
             texts = new String[] {"Left click = Open block", "Right click = Flag block", "X=Open block",
-                 "Z=Flag block"};
+                 "Z=Flag block", "arrows=movement"};
     
             // Adding images and text
             for (int i = 0; i < imageFiles.length; i++) {
@@ -23,7 +24,7 @@ public class HowTo {
         
                 // Define the maximum width and height for the resized image
                 int maxWidth = 80; // Adjust this value to your preference
-                int maxHeight = 80; // Adjust this value to your preference
+                int maxHeight = 60; // Adjust this value to your preference
         
                 // Calculate the scaled width and height while preserving aspect ratio
                 int scaledWidth = originalImage.getWidth(null);

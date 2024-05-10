@@ -143,7 +143,7 @@ public class MineSweeper implements Subject{
             } else if (SwingUtilities.isLeftMouseButton(e)) {
                 showButton(x, y);
             }
-            notifyObservers();
+                notifyObservers();
         }
     }
 
@@ -162,7 +162,6 @@ public class MineSweeper implements Subject{
     private void setGlobalListeners() {
         KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         manager.addKeyEventDispatcher(new KeyEventDispatcher() {
-            @Override
             public boolean dispatchKeyEvent(KeyEvent e) {
                 if (e.getID() == KeyEvent.KEY_PRESSED) {
                     switch (e.getKeyCode()) {
@@ -175,12 +174,14 @@ public class MineSweeper implements Subject{
                         case KeyEvent.VK_DOWN:
                             currXPlace = Math.min(row - 1, currXPlace + 1); break;
                         case KeyEvent.VK_X:
-                            showButton(currXPlace, currYPlace); break;
+                        if(isLost==false){
+                            showButton(currXPlace, currYPlace); break;}
                         case KeyEvent.VK_Z:
-                            toggleFlag(currXPlace, currYPlace); break;
+                        if(isLost==false){
+                            toggleFlag(currXPlace, currYPlace); break;}
                     }
-                    updateFocus();
                 }
+                    updateFocus();
                 return false;
             }
         });
