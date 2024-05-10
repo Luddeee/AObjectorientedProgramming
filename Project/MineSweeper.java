@@ -21,8 +21,8 @@ public class MineSweeper implements Subject{
     
     public boolean gridActive = false;
     String currdifficulty;
-    int tester1337 = 0;
-    int tester1338 = 1;
+    int discoverBombs = 0;
+    int currBombReveal = 1;
 
     private long startTime;
     private long endTime;
@@ -94,7 +94,7 @@ public class MineSweeper implements Subject{
             System.out.println("No difficulty is set, reverting to \"Easy\"");
         }
         isLost = false;
-        tester1338 = 1;
+        currBombReveal = 1;
         initializeGrid();
         notifyObservers();
     }
@@ -372,7 +372,7 @@ public class MineSweeper implements Subject{
         int y = 0;
         JButton button = squares[x][y];
         boolean OneBomb = true;
-        tester1337 = 0;
+        discoverBombs = 0;
         try {
             bombImage2 = ImageIO.read(new File("Project/interfaceIcons/bomb.png"));
             bombImage = bombImage2.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
@@ -383,8 +383,8 @@ public class MineSweeper implements Subject{
         for(int i = 0; i < row; i++){
             for(int j = 0; j < row; j++){
                 if (mines.contains(i + " " + j) && (OneBomb == true)){
-                    tester1337++;
-                    if(tester1337 == tester1338){
+                    discoverBombs++;
+                    if(discoverBombs == currBombReveal){
                         OneBomb = false;
                     }
                     button = squares[i][j];
@@ -394,7 +394,7 @@ public class MineSweeper implements Subject{
             }
         }
         OneBomb = false;
-        tester1338++;
+        currBombReveal++;
     }
 
     private void saveHighscore(long elapsedTime, String name) {
