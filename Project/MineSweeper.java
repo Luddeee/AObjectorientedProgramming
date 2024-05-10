@@ -82,6 +82,7 @@ public class MineSweeper implements Subject{
     }
 
     int restartcounter = 0;
+
     public void restart(){
         //This will restart the whole game and all it's content with the settings currently equiped
         restartcounter++;
@@ -93,6 +94,7 @@ public class MineSweeper implements Subject{
             System.out.println("No difficulty is set, reverting to \"Easy\"");
         }
         isLost = false;
+        tester1338 = 1;
         initializeGrid();
         notifyObservers();
     }
@@ -397,7 +399,7 @@ public class MineSweeper implements Subject{
     private void saveHighscore(long elapsedTime, String name) {
         // Ensure highScoresManager is properly initialized
         if (highScoresManager != null) {
-            highScoresManager.updateHighScores("Project/Highscores.txt", name, elapsedTime);
+            highScoresManager.updateHighScores("Project/Highscores" + currdifficulty + ".txt", name, elapsedTime);
             System.err.println(elapsedTime);
             // Reload high scores in the grid
             String test ="Project/Highscores" + currdifficulty + ".txt";
