@@ -226,13 +226,10 @@ public class MineSweeper implements Subject{
         int bombsNearby = nearBombsCounter(x, y);
         JButton button = squares[x][y];
         if (bombsNearby == 0) {
-            //if(!mines.contains(x + " " + y)){playSound("Project/soundFiles/plingsound.wav");}
             fileName = "blaa.png";
         } else if (bombsNearby >= 1 && bombsNearby <= 8) {
-            //if(!mines.contains(x + " " + y)){playSound("Project/soundFiles/plingsound.wav");}
             fileName = "number-" + bombsNearby + ".png";
         } else {
-            // Handle invalid number of nearby bombs
             return;
         }
         try {
@@ -241,21 +238,15 @@ public class MineSweeper implements Subject{
             button.setIcon(new ImageIcon(scaledImage));
         } catch (Exception e) {
             e.printStackTrace();
-            // Handle the exception gracefully, maybe show an error message
         }
-        //button.setText(Integer.toString(bombsNearby));
-        //button.setEnabled(false);
         if (mines.contains(x + " " + y)) {
-            //button.setText("BOOM");
             try {
                 bombImage2 = ImageIO.read(new File("Project/interfaceIcons/bomb.png"));
                 bombImage = bombImage2.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
                 button.setIcon(new ImageIcon(bombImage));
             } catch (Exception e) {
                 e.printStackTrace();
-                // Handle the exception gracefully, maybe show an error message
             }
-            //playSound("Project/soundFiles/boomsound.wav");
             isLost = true;
             JOptionPane.showMessageDialog(mainPanel, "You hit a mine!");
             for(int i = 0; i < row; i++){
@@ -263,12 +254,10 @@ public class MineSweeper implements Subject{
                     if (mines.contains(i + " " + j)){
                         button = squares[i][j];
                         button.setIcon(new ImageIcon(bombImage));
-                        //button.setEnabled(false); //same principle.
                     }
                 }
             }
         } else if (bombsNearby == 0) {
-            // Recursively reveal adjacent squaress
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
                     showButton(x + i, y + j);
@@ -278,15 +267,12 @@ public class MineSweeper implements Subject{
         wincounter++;
         if(isLost == false){
             if(wincounter == ((row*row)-numMines)){
-                //button.setText("BOOM");
                 try {
                     bombImage2 = ImageIO.read(new File("Project/interfaceIcons/bomb.png"));
                     bombImage = bombImage2.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    // Handle the exception gracefully, maybe show an error message
                 }
-                //playSound("Project/soundFiles/winsound.wav");
                 endTime = System.currentTimeMillis();
                 long elapsedTime = endTime - startTime;
                 String name = JOptionPane.showInputDialog("YOU Win! Enter your name:");
@@ -300,7 +286,6 @@ public class MineSweeper implements Subject{
                         if (mines.contains(i + " " + j)){
                             button = squares[i][j];
                             button.setIcon(new ImageIcon(bombImage));
-                            //button.setEnabled(false); //same principle.
                         }
                     }
                 }
