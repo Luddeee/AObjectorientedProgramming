@@ -2,37 +2,54 @@ package Project;
 
 import org.junit.Test;
 
-class MineSweeperTest {
+import org.junit.jupiter.api.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class mineSweeperTest {
 
     @Test
-    void testInitialization() {
+    void testSetDifficulty() {
         MineSweeper mineSweeper = new MineSweeper();
-        assertNotNull(mineSweeper.getMainPanel(), "Main panel should not be null after initialization");
-        assertEquals(8, mineSweeper.getRow(), "Default row should be 8 for easy difficulty");
+        mineSweeper.setDifficulty("Easy", 8, 10);
+        assertEquals(8, mineSweeper.getRow());
+        assertEquals(10, mineSweeper.numMines);
     }
 
     @Test
-    void testRestart() {
+    void testNearBombsCounter() {
         MineSweeper mineSweeper = new MineSweeper();
-        mineSweeper.restart();
-        assertEquals(1, mineSweeper.getrestartcount(), "Restart count should be 1 after one restart");
-        assertFalse(mineSweeper.isLost, "isLost should be false after restart");
+        mineSweeper.row = 5;
+        mineSweeper.numMines = 5;
+        mineSweeper.initializeGrid();
+        // Assuming a mine is at position (1,1)
+        mineSweeper.mines.add("1 1");
+        assertEquals(1, mineSweeper.nearBombsCounter(0, 0));
+        assertEquals(1, mineSweeper.nearBombsCounter(0, 1));
+        assertEquals(1, mineSweeper.nearBombsCounter(1, 0));
+        assertEquals(1, mineSweeper.nearBombsCounter(1, 2));
+        assertEquals(1, mineSweeper.nearBombsCounter(2, 1));
+        assertEquals(0, mineSweeper.nearBombsCounter(2, 2));
     }
 
     @Test
-    void testSaveHighscore() {
+    void testShowButton() {
         MineSweeper mineSweeper = new MineSweeper();
-        HighScoresManager mockManager = Mockito.mock(HighScoresManager.class);
-        mineSweeper.highScoresManager = mockManager;
-        
-        mineSweeper.saveHighscore(12345, "TestPlayer");
-        verify(mockManager, times(1)).updateHighScores(anyString(), eq("TestPlayer"), eq(12345L));
+        mineSweeper.row = 3;
+        mineSweeper.numMines = 1;
+        mineSweeper.initializeGrid();
+        // Assuming a mine is at position (0,0)
+        mineSweeper.mines.add("0 0");
+        mineSweeper.showButton(0, 1);
+        assertTrue(mineSweeper.visited[0][1]);
+        assertFalse(mineSweeper.isLost);
+        mineSweeper.showButton(0, 0); // Clicking on a mine
+        assertTrue(mineSweeper.isLost);
     }
 
-    @Test
-    void testGetCellStatus() {
-        MineSweeper mineSweeper = new MineSweeper();
-        mineSweeper.restart(); // Set up a new game
-        assertEquals("U", mineSweeper.getCellStatus(0, 0), "New cell should be unopened");
-    }
+    // Add more test cases for other methods as needed...
+
 }
