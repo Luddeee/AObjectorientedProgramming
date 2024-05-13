@@ -42,7 +42,6 @@ public class grid implements Observer{
     }
 
     grid(MineSweeper mineSweeper){
-        //mineSweeper = new MineSweeper();
         instance = this;
         mineSweeper.registerObserver(this);
 
