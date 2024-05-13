@@ -256,8 +256,8 @@ public class MineSweeper implements Subject{
                 // Handle the exception gracefully, maybe show an error message
             }
             //playSound("Project/soundFiles/boomsound.wav");
-            JOptionPane.showMessageDialog(mainPanel, "You hit a mine!");
             isLost = true;
+            JOptionPane.showMessageDialog(mainPanel, "You hit a mine!");
             for(int i = 0; i < row; i++){
                 for(int j = 0; j < row; j++){
                     if (mines.contains(i + " " + j)){
