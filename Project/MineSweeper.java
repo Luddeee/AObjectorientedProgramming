@@ -29,8 +29,8 @@ public class MineSweeper implements Subject{
 
     private JPanel mainPanel = new JPanel();
     private JButton[][] squares;
-    private HashSet<String> mines = new HashSet<>();
-    private boolean[][] visited;
+    HashSet<String> mines = new HashSet<>();
+    boolean[][] visited;
     private boolean[][] flagged;
     BufferedImage originalImage,bombImage2,flag2;
     Image scaledImage,bombImage,flag;
@@ -103,7 +103,7 @@ public class MineSweeper implements Subject{
         return restartcounter;
     }
 
-    private void initializeGrid(){
+    void initializeGrid(){
         wincounter = 0;
         mainPanel.removeAll();
         mines.clear();
@@ -203,7 +203,7 @@ public class MineSweeper implements Subject{
         }
     }
 
-    private int nearBombsCounter(int x, int y) {
+    int nearBombsCounter(int x, int y) {
         int count = 0;
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
@@ -217,7 +217,7 @@ public class MineSweeper implements Subject{
         return count;
     }
 
-    private void showButton(int x, int y) {
+    void showButton(int x, int y) {
         if (x < 0 || x >= row || y < 0 || y >= row || visited[x][y]) {
             return; //Error handling if we are out of bounds
         }
