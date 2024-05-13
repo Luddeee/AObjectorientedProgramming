@@ -290,6 +290,9 @@ public class MineSweeper implements Subject{
                 endTime = System.currentTimeMillis();
                 long elapsedTime = endTime - startTime;
                 String name = JOptionPane.showInputDialog("YOU Win! Enter your name:");
+                if (name == null) {
+                    name = "Pelle svanslös";
+                }
                 saveHighscore(elapsedTime,name);
                 isLost = true;
                 for(int i = 0; i < row; i++){

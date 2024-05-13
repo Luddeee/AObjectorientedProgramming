@@ -5,26 +5,11 @@ import java.util.*;
 
 public class HighScoresManager implements Serializable {
     private List<String> highScores; // Store high scores in the format "rank name - score"
-    private List<Observer> observers;
 
     public HighScoresManager() {
         highScores = new ArrayList<>();
-        observers = new ArrayList<>();
     }
 
-    public void addObserver(Observer observer) {
-        observers.add(observer);
-    }
-
-    public void removeObserver(Observer observer) {
-        observers.remove(observer);
-    }
-
-    public void notifyObservers() {
-        for (Observer observer : observers) {
-            observer.update();
-        }
-    }
 
     public void addHighScore(String name, long score) {
         // Remove any existing entry for the same player
@@ -35,9 +20,6 @@ public class HighScoresManager implements Serializable {
 
         // Sort the high scores
         sortHighScores();
-
-        // Notify observers of the change
-        notifyObservers();
     }
 
     public List<String> getHighScores() {
@@ -71,7 +53,6 @@ public class HighScoresManager implements Serializable {
             System.out.println("Current working directory: " + new File(".").getAbsolutePath());
         }
         sortHighScores(); // Sort the high scores after loading
-        notifyObservers(); // Notify observers of the change
     }
 
     public void updateHighScores(String path, String name, long score) {
