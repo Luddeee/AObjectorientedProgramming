@@ -5,12 +5,12 @@
 [4] Aleks - 8689
 [5] test - 8736
 [6] hej - 8752
-[7] Pelle svansl�s - 8773
+[7] Pelle svanslös - 8773
 [8] Aleks - 9186
 [9] Aleks - 9381
 [10] kdhck - 9550
 [11] bonk - 9709
-[12] Pelle svansl�s - 9709
+[12] Pelle svanslös - 9709
 [12] ludde - 10580
 [13] ogaboga1337 - 10990
 [14] ohsid - 11302
@@ -18,6 +18,6 @@
 [16] 123456789012 - 11846
 [17] x - 12586
 [18] ksdf - 12862
-[19] Luddeb�st - 13122
+[19] Luddebäst - 13122
 [20] ajdanslk - 13348
 [21] axel - 13514
