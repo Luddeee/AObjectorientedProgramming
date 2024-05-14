@@ -6,26 +6,27 @@ import java.util.List;
 public class PrevGameState implements Observer {
     private MineSweeper mineSweeper;
     private List<String[][]> gameStates = new ArrayList<>();
-    private SoundNotification soundNotification; // Store SoundNotification instance
+    private SoundNotification soundNotification;
 
     public PrevGameState(MineSweeper mineSweeper) {
         this.mineSweeper = mineSweeper;
         this.mineSweeper.registerObserver(this);
-
-        // Initialize SoundNotification with sound files
         List<String> soundFilePaths = new ArrayList<>();
-        soundFilePaths.add("Project/soundFiles/plingsound.wav"); // Sound for revealing squares
-        soundFilePaths.add("Project/soundFiles/boomsound.wav"); // Sound for hitting a mine
-        soundFilePaths.add("Project/soundFiles/winsound.wav"); // Sound for winning
+        soundFilePaths.add("Project/soundFiles/plingsound.wav");
+        soundFilePaths.add("Project/soundFiles/boomsound.wav");
+        soundFilePaths.add("Project/soundFiles/winsound.wav");
         this.soundNotification = new SoundNotification(soundFilePaths);
     }
 
     int oldrcounter;
 
+    /**
+     * This Java function updates the game state based on the current cell status and restart count in
+     * a Minesweeper game.
+     */
     @Override
     public void update() {
         int rcounter = mineSweeper.getrestartcount();
-        // Capture current state of the grid
         String[][] currentState = new String[mineSweeper.getRow()][mineSweeper.getRow()];
         for (int i = 0; i < mineSweeper.getRow(); i++) {
             for (int j = 0; j < mineSweeper.getRow(); j++) {
@@ -38,14 +39,22 @@ public class PrevGameState implements Observer {
         }
         gameStates.add(currentState);
         oldrcounter = rcounter;
-        // Play sound notification based on game action
         playSoundNotification();
     }
 
+    /**
+     * The function `getGameStates` returns a list of 2D string arrays representing game states.
+     * 
+     * @return A List of two-dimensional String arrays representing game states is being returned.
+     */
     public List<String[][]> getGameStates() {
         return gameStates;
     }
 
+    /**
+     * This Java function iterates through a 2D array of game states, printing each state with a
+     * specific format and handling a special case for the "Restarted" state.
+     */
     public void printCapturedStates() {
         int gameStateNumber = 1;
         boolean once = true;
@@ -71,28 +80,24 @@ public class PrevGameState implements Observer {
         }
     }
 
+    /**
+     * The `playSoundNotification` function checks for changes in game states and plays different sound
+     * notifications based on whether a bomb was hit or a square was revealed.
+     */
     public void playSoundNotification() {
-        // Get the index of the last recorded game state
         int lastIndex = gameStates.size() - 1;
-    
-        // Check if there is a previous game state
         if (lastIndex > 0) {
             String[][] previousState = gameStates.get(lastIndex - 1);
             String[][] currentState = gameStates.get(lastIndex);
     
-            boolean bombHit = false; // Flag to track if a bomb was hit
-            boolean squareRevealed = false; // Flag to track if a square was revealed
-    
-            // Loop through the game states to compare changes
+            boolean bombHit = false;
+            boolean squareRevealed = false;
             for (int i = 0; i < currentState.length; i++) {
                 for (int j = 0; j < currentState[i].length; j++) {
-                    // Check if there's a change from the previous state
                     if (!currentState[i][j].equals(previousState[i][j])) {
-                        // Check if a bomb was hit
                         if (currentState[i][j].equals("M")) {
                             bombHit = true;
                         }
-                        // Check if a square was revealed
                         else if (!currentState[i][j].equals("U") 
                         && !currentState[i][j].equals("F") 
                         && !currentState[i][j].equals("Restarted")) {
@@ -101,12 +106,10 @@ public class PrevGameState implements Observer {
                     }
                 }
             }
-    
-            // Play the corresponding sound based on the detected changes
             if (bombHit) {
-                soundNotification.playSoundNotification("boomsound"); // Play the boom sound
+                soundNotification.playSoundNotification("boomsound");
             } else if (squareRevealed) {
-                soundNotification.playSoundNotification("plingsound"); // Play the pling sound
+                soundNotification.playSoundNotification("plingsound");
             }
         }
     }

@@ -35,9 +35,12 @@ public class settings implements Observer{
         this.mineSweeper = mineSweeper;
         mineSweeper.registerObserver(this);
         initializeSettingsUI();
-        
     }
 
+    /**
+     * The `initializeSettingsUI` function sets up a user interface for settings in a Java application,
+     * including layout, components, and event handling.
+     */
     private void initializeSettingsUI() {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
@@ -102,6 +105,10 @@ public class settings implements Observer{
         frame1.setAlwaysOnTop(true);
     }
 
+    /**
+     * The function `changeDifficulty` sets the strategy of a MineSweeper game based on the selected
+     * difficulty level.
+     */
     private void changeDifficulty(){
         String selectedDifficulty = (String) difficulty.getSelectedItem();
         switch (selectedDifficulty) {
@@ -117,6 +124,12 @@ public class settings implements Observer{
         }
     }
 
+    /**
+     * The `getDifficulty` function returns the selected difficulty as a String from a dropdown menu.
+     * 
+     * @return The method `getDifficulty()` is returning the selected item from a dropdown menu named
+     * `difficulty` as a String.
+     */
     public String getDifficulty() {
         return (String)difficulty.getSelectedItem();
     }

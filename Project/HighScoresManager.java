@@ -4,13 +4,25 @@ import java.io.*;
 import java.util.*;
 
 public class HighScoresManager implements Serializable {
-    private List<String> highScores; // Store high scores in the format "rank name - score"
-
+    private List<String> highScores;
+    // The `public HighScoresManager()` constructor in the `HighScoresManager` class is initializing
+    // the `highScores` instance variable. It creates a new `ArrayList` object and assigns it to the
+    // `highScores` variable. This ensures that when an instance of `HighScoresManager` is created, it
+    // starts with an empty list of high scores.
     public HighScoresManager() {
         highScores = new ArrayList<>();
     }
 
 
+    /**
+     * The `addHighScore` function in Java adds a new high score entry for a player, removing any
+     * existing entry for the same player and then sorting the high scores.
+     * 
+     * @param name Name of the player whose high score is being added.
+     * @param score The `score` parameter in the `addHighScore` method represents the numerical score
+     * achieved by a player in a game. It is a `long` data type, which is a 64-bit signed integer in
+     * Java. This score is added to the list of high scores for the game along with
+     */
     public void addHighScore(String name, long score) {
         // Remove any existing entry for the same player
         removePlayer(name);
@@ -22,10 +34,31 @@ public class HighScoresManager implements Serializable {
         sortHighScores();
     }
 
+    /**
+     * This Java function returns a list of high scores.
+     * 
+     * @return A List of Strings containing high scores is being returned.
+     */
     public List<String> getHighScores() {
         return highScores;
     }
 
+    /**
+     * The function `saveHighScores` writes the updated high scores to a file specified by the given
+     * path in Java.
+     * 
+     * @param path The `path` parameter in the `saveHighScores` method is a `String` that represents
+     * the file path where the high scores will be saved. This parameter specifies the location and
+     * name of the file where the high scores data will be written to.
+     */
+    /**
+     * The `saveHighScores` function writes the updated high scores to a file specified by the given
+     * path in Java.
+     * 
+     * @param path The `path` parameter in the `saveHighScores` method is the file path where the high
+     * scores will be saved. It specifies the location and name of the file where the high scores will
+     * be written to.
+     */
     public void saveHighScores(String path) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(path, false))) {
             // Write the updated high scores to the file
@@ -37,6 +70,15 @@ public class HighScoresManager implements Serializable {
         }
     }
 
+    /**
+     * The `loadHighScores` function clears existing high scores, reads high scores from a file
+     * specified by the path, adds them to a list, sorts the high scores, and handles any exceptions
+     * that occur during the process.
+     * 
+     * @param path The `path` parameter in the `loadHighScores` method is a string that represents the
+     * file path from which the high scores will be loaded. This path should point to the location of
+     * the file containing the high scores data that needs to be loaded into the program.
+     */
     public void loadHighScores(String path) {
         highScores.clear(); // Clear existing high scores
         try {
@@ -55,6 +97,19 @@ public class HighScoresManager implements Serializable {
         sortHighScores(); // Sort the high scores after loading
     }
 
+    /**
+     * The function `updateHighScores` updates the high scores by loading existing scores, adding a new
+     * score, and saving the updated scores back to a file.
+     * 
+     * @param path The `path` parameter in the `updateHighScores` method represents the file path where
+     * the high scores data is stored or where you want to save the updated high scores. It is a string
+     * that specifies the location of the file in the file system.
+     * @param name The `name` parameter in the `updateHighScores` method represents the name of the
+     * player who achieved the high score.
+     * @param score The `score` parameter in the `updateHighScores` method represents the score that a
+     * player achieved in a game. This score will be added to the list of high scores and saved in a
+     * file for future reference.
+     */
     public void updateHighScores(String path, String name, long score) {
         // Load existing high scores
         loadHighScores(path);
@@ -66,6 +121,15 @@ public class HighScoresManager implements Serializable {
         saveHighScores(path);
     }
 
+    /**
+     * The `removePlayer` function removes all entries in the `highScores` list that start with the
+     * specified `name`.
+     * 
+     * @param name The `name` parameter in the `removePlayer` method is a `String` representing the
+     * name of the player that you want to remove from the `highScores` list. The method iterates
+     * through the list of high scores and removes any entry that starts with the specified player
+     * name.
+     */
     private void removePlayer(String name) {
         Iterator<String> iterator = highScores.iterator();
         while (iterator.hasNext()) {
@@ -76,6 +140,10 @@ public class HighScoresManager implements Serializable {
         }
     }
 
+    /**
+     * The `sortHighScores` method sorts a list of high scores based on score value in descending order
+     * and assigns rankings to handle ties.
+     */
     private void sortHighScores() {
         // Sort the high scores based on score value
         Collections.sort(highScores, (s1, s2) -> {

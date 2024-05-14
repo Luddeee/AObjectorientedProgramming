@@ -119,6 +119,14 @@ public class grid implements Observer{
         frame.setVisible(true);
     }
 
+    /**
+     * The `loadHighScores` function reads high scores from a file specified by the `path` parameter
+     * and adds them to a list model for display.
+     * 
+     * @param path The `path` parameter in the `loadHighScores` method is a string that represents the
+     * file path from which the high scores will be loaded. This path should point to the location of
+     * the file containing the high scores data that needs to be read and displayed.
+     */
     private void loadHighScores(String path){
         highscroll.setPreferredSize(new Dimension((int)(frame.getWidth()*0.2),frame.getHeight()));
         try {
@@ -136,6 +144,15 @@ public class grid implements Observer{
         eastTextPanel.add(highscroll, BorderLayout.CENTER);
     }
 
+    /**
+     * The `reloadHighScores` function clears existing high scores, reads high scores from a file
+     * specified by the `path`, adds them to a list model, and updates the panel to reflect the
+     * changes.
+     * 
+     * @param path The `path` parameter in the `reloadHighScores` method is a string that represents
+     * the file path from which the high scores will be loaded. This path should point to the location
+     * of the file containing the high scores data that needs to be reloaded.
+     */
     public void reloadHighScores(String path) {
         listModel.clear(); // Clear existing high scores
         try {
@@ -154,11 +171,17 @@ public class grid implements Observer{
         eastTextPanel.repaint(); // Repaint the panel
     }
 
+    /**
+     * The `update` function calls the `refreshUI` method to update the user interface.
+     */
     @Override
     public void update() {
         refreshUI();
     }
 
+    /**
+     * The `refreshUI` function in Java refreshes the user interface by repainting the frame.
+     */
     private void refreshUI() {
         frame.repaint();
     }

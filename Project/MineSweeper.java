@@ -15,6 +15,10 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 
 public class MineSweeper implements Subject{
+// The above code snippet is declaring three private fields in a Java class:
+// 1. `observers`: A list of `Observer` objects initialized with an empty `ArrayList`.
+// 2. `highScoresManager`: An instance of `HighScoresManager` class.
+// 3. `gameStrategy`: An instance of `GameStrategy` class.
     private List<Observer> observers = new ArrayList<>();
     private HighScoresManager highScoresManager;
     private GameStrategy gameStrategy;
@@ -45,12 +49,22 @@ public class MineSweeper implements Subject{
 
     private int currXPlace = 0, currYPlace = 0;
 
+    // The above code is a constructor for a `MineSweeper` class in Java. It sets the strategy for the
+    // MineSweeper game to an instance of `EasyStrategy`, initializes a `HighScoresManager`, and sets
+    // global listeners for the game.
     public MineSweeper(){
         setStrategy(new EasyStrategy());
         highScoresManager = new HighScoresManager();
         setGlobalListeners();
     }
 
+    /**
+     * The `registerObserver` function adds an observer to a list of observers if it is not already
+     * present.
+     * 
+     * @param o The parameter "o" in the method "registerObserver" is an object of type Observer. This
+     * object represents an observer that will be registered to receive updates from the subject.
+     */
     @Override
     public void registerObserver(Observer o) {
         if (!observers.contains(o)) {
@@ -58,11 +72,21 @@ public class MineSweeper implements Subject{
         }
     }
 
+   /**
+    * The function removes an observer from a list of observers.
+    * 
+    * @param o The parameter `o` in the `removeObserver` method is an object of type `Observer` that
+    * you want to remove from the list of observers.
+    */
     @Override
     public void removeObserver(Observer o) {
         observers.remove(o);
     }
 
+    /**
+     * The `notifyObservers` function iterates through a list of observers and calls the `update`
+     * method on each observer.
+     */
     @Override
     public void notifyObservers() {
         for (Observer observer : observers) {
@@ -70,6 +94,12 @@ public class MineSweeper implements Subject{
         }
     }
 
+    /**
+     * The `setStrategy` method sets a new game strategy, applies settings, and restarts the game.
+     * 
+     * @param strategy The `strategy` parameter in the `setStrategy` method is an object of type
+     * `GameStrategy`.
+     */
     public void setStrategy(GameStrategy strategy) {
         this.gameStrategy = strategy;
         this.gameStrategy.applySettings(this);
@@ -77,32 +107,44 @@ public class MineSweeper implements Subject{
         restart();
     }
 
+    /**
+     * The function `getMainPanel()` returns the main panel in a Java program.
+     * 
+     * @return The method `getMainPanel()` is returning a `JPanel` object named `mainPanel`.
+     */
     public JPanel getMainPanel(){
         return mainPanel;
     }
 
     int restartcounter = 0;
 
+    /**
+     * The `restart` function resets the game, increments a counter, sets the start time, initializes
+     * the grid, and notifies observers.
+     */
     public void restart(){
-        //This will restart the whole game and all it's content with the settings currently equiped
         restartcounter++;
         startTime = System.currentTimeMillis();
-        System.out.println("restarted"); //testing var
-        try{
-            //System.out.println("Difficulty is now: " + settings.getDifficulty());
-        } catch(Exception e){
-            System.out.println("No difficulty is set, reverting to \"Easy\"");
-        }
+        System.out.println("restarted");
         isLost = false;
         currBombReveal = 1;
         initializeGrid();
         notifyObservers();
     }
 
+    /**
+     * The function `getrestartcount` returns the value of the `restartcounter` variable.
+     * 
+     * @return The method `getrestartcount` is returning the value of the variable `restartcounter`.
+     */
     public int getrestartcount(){
         return restartcounter;
     }
 
+    /**
+     * The `initializeGrid` function sets up a grid layout, adds buttons with mouse click event
+     * listeners, and refreshes the main panel for a Minesweeper game.
+     */
     void initializeGrid(){
         wincounter = 0;
         mainPanel.removeAll();
@@ -118,8 +160,7 @@ public class MineSweeper implements Subject{
             for (int j = 0; j < squares.length; j++) {
                 squares[i][j] = new JButton();
                 squares[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                //squares[i][j].setActionCommand(i + " " + j); //Determines the action the buttons should havea
-                final int fi = i; //Final variables as to not tuch i and j (needed for nearBombsCounter())
+                final int fi = i;
                 final int fj = j;;
                 squares[i][j].setContentAreaFilled(false);
                 squares[i][j].addMouseListener(new MouseAdapter() {
@@ -127,7 +168,6 @@ public class MineSweeper implements Subject{
                         handleMouseClick(e, fi, fj);
                     }
                 });
-                //squares[i][j].setActionCommand(fi + " " + fj);
                 mainPanel.add(squares[i][j]);
             }
         }
@@ -136,6 +176,20 @@ public class MineSweeper implements Subject{
         mainPanel.repaint();
     }
 
+    /**
+     * The function `handleMouseClick` processes mouse clicks by toggling flags or showing buttons
+     * based on the mouse button pressed, and notifies observers if the game is not lost.
+     * 
+     * @param e The parameter `e` is of type `MouseEvent` and represents the mouse event that occurred.
+     * It contains information about the event such as the type of mouse button clicked, the
+     * coordinates of the mouse click, etc.
+     * @param x The parameter `x` in the `handleMouseClick` method represents the x-coordinate of the
+     * mouse click location on the screen. It is used to determine the position where the mouse click
+     * occurred within the application window or component.
+     * @param y The 'y' parameter in the `handleMouseClick` method represents the vertical coordinate
+     * of the mouse click event. It is used to determine the position where the mouse click occurred on
+     * the screen.
+     */
     private void handleMouseClick(MouseEvent e, int x, int y) {
         if(isLost==false){
             if (SwingUtilities.isRightMouseButton(e)) {
@@ -147,6 +201,10 @@ public class MineSweeper implements Subject{
         }
     }
 
+    /**
+     * The `updateFocus` function iterates through a 2D array of squares and highlights the square at
+     * the current position with a red border while setting all other squares to have a black border.
+     */
     private void updateFocus() {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < row; j++) {
@@ -159,6 +217,10 @@ public class MineSweeper implements Subject{
         }
     }
 
+    /**
+     * The `setGlobalListeners` function in Java sets up keyboard event listeners to handle arrow key
+     * movements and button interactions in a game interface.
+     */
     private void setGlobalListeners() {
         KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         manager.addKeyEventDispatcher(new KeyEventDispatcher() {
@@ -188,12 +250,10 @@ public class MineSweeper implements Subject{
     }
     
 
-    void saveHighscore(){
-        //Saves the time of completion and difficulty when winning to a text file, (the text file can then be loaded in)
-        //This also needs to add the highscore in the correct order in the text file so that the best is at the top
-        //This is to be updated after you win
-    }
-
+    /**
+     * The function sets random mine locations on a grid
+     * until the desired number of mines is reached.
+     */
     private void setMines() {
         Random rand = new Random();
         while (mines.size() < numMines) {
@@ -203,11 +263,24 @@ public class MineSweeper implements Subject{
         }
     }
 
+    /**
+     * The function `nearBombsCounter` calculates the number of mines surrounding a given cell in a
+     * minesweeper game grid.
+     * 
+     * @param x The parameter `x` represents the x-coordinate of a cell on a grid where you are trying
+     * to count the number of neighboring bombs. The function `nearBombsCounter` calculates the number
+     * of bombs in the neighboring cells of the cell at coordinates (x, y) on the grid.
+     * @param y The `y` parameter in the `nearBombsCounter` function represents the y-coordinate of a
+     * cell in a grid. The function calculates the number of bombs in the neighboring cells of the
+     * specified cell at coordinates (x, y).
+     * @return The function `nearBombsCounter` returns the count of neighboring bombs around the cell
+     * at coordinates (x, y).
+     */
     int nearBombsCounter(int x, int y) {
         int count = 0;
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
-                if (i >= 0 && i < row && j >= 0 && j < row) { // Ensure indices are within grid bounds
+                if (i >= 0 && i < row && j >= 0 && j < row) {
                     if (mines.contains(i + " " + j)) {
                         count++;
                     }
@@ -217,6 +290,18 @@ public class MineSweeper implements Subject{
         return count;
     }
 
+   /**
+    * The function `showButton` in Java handles the display of buttons in a Minesweeper game, including
+    * setting icons based on nearby bombs, handling clicks on mines, and checking for win conditions.
+    * 
+    * @param x The `x` parameter in the `showButton` method represents the x-coordinate of the button
+    * in a grid. It is used to determine the position of the button within the grid and to perform
+    * various operations based on its value.
+    * @param y The parameter `y` in the `showButton` method represents the y-coordinate of the button
+    * in a grid. It is used to determine the position of the button within the grid and to perform
+    * operations based on its location, such as checking nearby bombs and updating the button's
+    * appearance.
+    */
     void showButton(int x, int y) {
         if (x < 0 || x >= row || y < 0 || y >= row || visited[x][y]) {
             return; //Error handling if we are out of bounds
@@ -293,6 +378,16 @@ public class MineSweeper implements Subject{
             notifyObservers();
         }
     }
+    /**
+     * The `toggleFlag` function toggles the flag status of a square on a game board and updates the
+     * corresponding button icon accordingly.
+     * 
+     * @param x The `x` parameter in the `toggleFlag` method represents the x-coordinate of the square
+     * on the game board where the flag is being toggled.
+     * @param y The `y` parameter in the `toggleFlag` method represents the vertical position or the
+     * column index of the cell in a grid. It is used to specify the location of the cell where the
+     * flag status is being toggled.
+     */
     private void toggleFlag(int x, int y) {
         if (!visited[x][y]) { // Prevent flagging after revealing
             flagged[x][y] = !flagged[x][y]; // Toggle flag status
@@ -314,6 +409,19 @@ public class MineSweeper implements Subject{
         notifyObservers();
     }
 
+    /**
+     * The function `setDifficulty` sets the game difficulty level, number of rows, and mines, and
+     * reloads high scores if the grid is active.
+     * 
+     * @param difficulty The `difficulty` parameter in the `setDifficulty` method is a String that
+     * represents the level of difficulty for the game. It could be values like "easy", "medium", or
+     * "hard".
+     * @param rows The `rows` parameter in the `setDifficulty` method represents the number of rows in
+     * the game grid. It determines the vertical size of the grid where the game will be played.
+     * @param mines The `mines` parameter in the `setDifficulty` method represents the number of mines
+     * that will be present in the game grid for the specified difficulty level. This parameter
+     * determines the level of challenge and risk in the game.
+     */
     public void setDifficulty(String difficulty, int rows, int mines) {
         currdifficulty = difficulty;
         String test ="Project/Highscores" + currdifficulty + ".txt";
@@ -326,35 +434,47 @@ public class MineSweeper implements Subject{
         System.out.println("Difficulty is now: " + difficulty + " Rows:" + rows + " Mines:" + mines);
     }
 
-    /*public void playSound(String soundFileName) {
-        try {
-            File soundFile = new File(soundFileName);
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioIn);
-            clip.start();
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
-        }
-    } */
-
+    /**
+     * The `getRow` function in Java returns the value of the `row` variable.
+     * 
+     * @return The `row` variable is being returned.
+     */
     public int getRow(){
         return row;
     }
 
+    /**
+     * The `getCellStatus` function returns the status of a cell on a grid based on whether it has been
+     * visited, contains a mine, is flagged, or has not been opened.
+     * 
+     * @param x The parameter `x` represents the x-coordinate of the cell in a grid.
+     * @param y The `y` parameter represents the y-coordinate of the cell for which you want to get the
+     * status. The `getCellStatus` method takes two parameters `x` and `y`, which are the coordinates
+     * of a cell in a grid. The method checks the status of the cell at the specified coordinates
+     * @return The `getCellStatus` method returns the status of a cell at coordinates (x, y) on a grid.
+     * The possible return values are:
+     * - "M" if the cell is a mine
+     * - A number indicating the number of bombs nearby if the cell has been visited
+     * - "F" if the cell is flagged
+     * - "U" if the cell has not been opened
+     */
     public String getCellStatus(int x, int y) {
         if (visited[x][y]) {
             if (mines.contains(x + " " + y)) {
-                return "M"; //if cell is a mine
+                return "M";
             } else {
                 int bombs = nearBombsCounter(x, y);
-                return Integer.toString(bombs); // Return the number of bombs nearby
+                return Integer.toString(bombs);
             }
         } else if (flagged[x][y]) {
-            return "F"; //if cell is flagged
+            return "F";
         }
-        return "U"; //if cell has not been opened
+        return "U";
     }
+    /**
+     * The `revealBombPosition` function reveals the positions of bombs on a grid by updating the icons
+     * of specific buttons with a bomb image.
+     */
     public void revealBombPosition() {
         int x = 0;
         int y = 0;
@@ -385,6 +505,17 @@ public class MineSweeper implements Subject{
         currBombReveal++;
     }
 
+    /**
+     * The `saveHighscore` method saves the player's high score with their name and elapsed time, and
+     * reloads the high scores grid if the highScoresManager is properly initialized.
+     * 
+     * @param elapsedTime The `elapsedTime` parameter in the `saveHighscore` method represents the time
+     * taken to achieve a certain score or complete a task in the game. It is a measure of the time
+     * duration in milliseconds that the player took to complete a particular level or game session.
+     * @param name The `name` parameter in the `saveHighscore` method represents the name of the player
+     * who achieved the high score. This name will be associated with the elapsed time in the high
+     * scores list.
+     */
     private void saveHighscore(long elapsedTime, String name) {
         // Ensure highScoresManager is properly initialized
         if (highScoresManager != null) {
