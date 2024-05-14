@@ -20,7 +20,7 @@ public class MineSweeper implements Subject{
     private GameStrategy gameStrategy;
     
     public boolean gridActive = false;
-    String currdifficulty;
+    public String currdifficulty;
     int discoverBombs = 0;
     int currBombReveal = 1;
 
@@ -40,7 +40,7 @@ public class MineSweeper implements Subject{
     int wincounter;
     boolean isLost = false;
 
-    int numMines = easymines; //Numbers of mines to exist in the game
+    public int numMines = easymines; //Numbers of mines to exist in the game
     int row = easyrows; //Number of rows to exist, (the number of squares to exist in the playing field) (the field will be a square thus row and col are equal)
 
     private int currXPlace = 0, currYPlace = 0;
