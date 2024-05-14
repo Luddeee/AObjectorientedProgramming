@@ -1,0 +1,147 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "TestSignal",
+            "request": "launch",
+            "mainClass": "Exercise1.TestSignal",
+            "projectName": "AObjectorientedProgramming_a4fbfd47"
+        },
+        {
+            "type": "java",
+            "name": "SlideShow",
+            "request": "launch",
+            "mainClass": "Exercise10.SlideShow",
+            "projectName": "AObjectorientedProgramming_a4fbfd47"
+        },
+        {
+            "type": "java",
+            "name": "TestTree",
+            "request": "launch",
+            "mainClass": "Exercise12.TestTree",
+            "projectName": "AObjectorientedProgramming_a4fbfd47"
+        },
+        {
+            "type": "java",
+            "name": "Exercise14",
+            "request": "launch",
+            "mainClass": "Exercise14",
+            "projectName": "AObjectorientedProgramming_a4fbfd47"
+        },
+        {
+            "type": "java",
+            "name": "Exercise15",
+            "request": "launch",
+            "mainClass": "Exercise15",
+            "projectName": "AObjectorientedProgramming_a4fbfd47"
+        },
+        {
+            "type": "java",
+            "name": "Exercise5",
+            "request": "launch",
+            "mainClass": "Exercise5",
+            "projectName": "AObjectorientedProgramming_a4fbfd47"
+        },
+        {
+            "type": "java",
+            "name": "Exercise7",
+            "request": "launch",
+            "mainClass": "Exercise7",
+            "projectName": "AObjectorientedProgramming_a4fbfd47"
+        },
+        {
+            "type": "java",
+            "name": "Exercise8",
+            "request": "launch",
+            "mainClass": "Exercise8",
+            "projectName": "AObjectorientedProgramming_a4fbfd47"
+        },
+        {
+            "type": "java",
+            "name": "TestFilter",
+            "request": "launch",
+            "mainClass": "Exercise8.TestFilter",
+            "projectName": "AObjectorientedProgramming_a4fbfd47"
+        },
+        {
+            "type": "java",
+            "name": "Exercise9",
+            "request": "launch",
+            "mainClass": "Exercise9",
+            "projectName": "AObjectorientedProgramming_a4fbfd47"
+        },
+        {
+            "type": "java",
+            "name": "Gomoku",
+            "request": "launch",
+            "mainClass": "Gomoku",
+            "projectName": "AObjectorientedProgramming_a4fbfd47"
+        },
+        {
+            "type": "java",
+            "name": "Tree",
+            "request": "launch",
+            "mainClass": "Lab3.Tree",
+            "projectName": "AObjectorientedProgramming_a4fbfd47"
+        },
+        {
+            "type": "java",
+            "name": "ObserverTester",
+            "request": "launch",
+            "mainClass": "ObserverTester",
+            "projectName": "AObjectorientedProgramming_a4fbfd47"
+        },
+        {
+            "type": "java",
+            "name": "ProjectStart",
+            "request": "launch",
+            "mainClass": "Project.ProjectStart",
+            "projectName": "AObjectorientedProgramming_a4fbfd47"
+        },
+        {
+            "type": "java",
+            "name": "SlideShow(1)",
+            "request": "launch",
+            "mainClass": "SlideShow",
+            "projectName": "AObjectorientedProgramming_a4fbfd47"
+        },
+        {
+            "type": "java",
+            "name": "TestTree(1)",
+            "request": "launch",
+            "mainClass": "Temp.Lab2.Task12.TestTree",
+            "projectName": "AObjectorientedProgramming_a4fbfd47"
+        },
+        {
+            "type": "java",
+            "name": "ObserverTester(1)",
+            "request": "launch",
+            "mainClass": "Temp.Lab2.Task4.ObserverTester",
+            "projectName": "AObjectorientedProgramming_a4fbfd47"
+        },
+        {
+            "type": "java",
+            "name": "FilterThreeCharacters",
+            "request": "launch",
+            "mainClass": "Temp.Lab2.Task8.FilterThreeCharacters",
+            "projectName": "AObjectorientedProgramming_a4fbfd47"
+        },
+        {
+            "type": "java",
+            "name": "Tree(1)",
+            "request": "launch",
+            "mainClass": "Temp.Lab3.Task4.Tree",
+            "projectName": "AObjectorientedProgramming_a4fbfd47"
+        }
+    ]
+}

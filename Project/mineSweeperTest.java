@@ -1,18 +1,18 @@
 package Project;
 
-import org.junit.Test;
+import org.junit.*;
 
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.*;
+//import static org.junit.jupiter.api.Assertions.*;
 
 public class mineSweeperTest {
 
     @Test
-    void testSetDifficulty() {
+    public void testSetDifficulty() {
         MineSweeper mineSweeper = new MineSweeper();
         mineSweeper.setDifficulty("Easy", 8, 10);
         assertEquals(8, mineSweeper.getRow());
@@ -20,7 +20,7 @@ public class mineSweeperTest {
     }
 
     @Test
-    void testNearBombsCounter() {
+    public void testNearBombsCounter() {
         MineSweeper mineSweeper = new MineSweeper();
         mineSweeper.row = 5;
         mineSweeper.numMines = 5;
@@ -36,7 +36,7 @@ public class mineSweeperTest {
     }
 
     @Test
-    void testShowButton() {
+    public void testShowButton() {
         MineSweeper mineSweeper = new MineSweeper();
         mineSweeper.row = 3;
         mineSweeper.numMines = 1;
