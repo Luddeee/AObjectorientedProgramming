@@ -34,7 +34,7 @@ public class MineSweeper implements Subject{
     private JButton[][] squares;
     HashSet<String> mines = new HashSet<>();
     boolean[][] visited;
-    private boolean[][] flagged;
+    boolean[][] flagged;
     BufferedImage originalImage,bombImage2,flag2;
     Image scaledImage,bombImage,flag;
 
@@ -317,7 +317,7 @@ public class MineSweeper implements Subject{
             return;
         }
         try {
-            originalImage = ImageIO.read(new File("Project/interfaceIcons/" + fileName));
+            originalImage = loadImage("Project/interfaceIcons/" + fileName);
             scaledImage = originalImage.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
             button.setIcon(new ImageIcon(scaledImage));
         } catch (Exception e) {
@@ -325,7 +325,7 @@ public class MineSweeper implements Subject{
         }
         if (mines.contains(x + " " + y)) {
             try {
-                bombImage2 = ImageIO.read(new File("Project/interfaceIcons/bomb.png"));
+                bombImage2 = loadImage("Project/interfaceIcons/bomb.png");
                 bombImage = bombImage2.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
                 button.setIcon(new ImageIcon(bombImage));
             } catch (Exception e) {
@@ -352,7 +352,7 @@ public class MineSweeper implements Subject{
         if(isLost == false){
             if(wincounter == ((row*row)-numMines)){
                 try {
-                    bombImage2 = ImageIO.read(new File("Project/interfaceIcons/bomb.png"));
+                    bombImage2 = loadImage("Project/interfaceIcons/bomb.png");
                     bombImage = bombImage2.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -377,6 +377,18 @@ public class MineSweeper implements Subject{
             notifyObservers();
         }
     }
+
+    public BufferedImage loadImage(String path) {
+        try {
+            return ImageIO.read(new File(path));
+        } catch (Exception e) {
+            BufferedImage tempim = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
+            System.out.println("Error loading image");
+            return tempim;
+        }
+    }
+    
+
     /**
      * The `toggleFlag` function toggles the flag status of a square on a game board and updates the
      * corresponding button icon accordingly.
@@ -387,13 +399,13 @@ public class MineSweeper implements Subject{
      * column index of the cell in a grid. It is used to specify the location of the cell where the
      * flag status is being toggled.
      */
-    private void toggleFlag(int x, int y) {
+    void toggleFlag(int x, int y) {
         if (!visited[x][y]) { // Prevent flagging after revealing
             flagged[x][y] = !flagged[x][y]; // Toggle flag status
             JButton button = squares[x][y];
             if (flagged[x][y]) {
                 try {
-                    flag2 = ImageIO.read(new File("Project/interfaceIcons/flag.png"));
+                    flag2 = loadImage("Project/interfaceIcons/flag.png");
                     flag = flag2.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
                     button.setIcon(new ImageIcon(flag));
                 } catch (Exception e) {
@@ -481,7 +493,7 @@ public class MineSweeper implements Subject{
         boolean OneBomb = true;
         discoverBombs = 0;
         try {
-            bombImage2 = ImageIO.read(new File("Project/interfaceIcons/bomb.png"));
+            bombImage2 = loadImage("Project/interfaceIcons/bomb.png");
             bombImage = bombImage2.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
         } catch (Exception e) {
             e.printStackTrace();
