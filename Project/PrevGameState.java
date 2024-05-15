@@ -80,6 +80,9 @@ public class PrevGameState implements Observer {
         }
     }
 
+    @Override
+    public void updateGame(int x, int y, int flag){
+    }
     /**
      * The `playSoundNotification` function checks for changes in game states and plays different sound
      * notifications based on whether a bomb was hit or a square was revealed.

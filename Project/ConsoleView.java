@@ -1,6 +1,9 @@
 package Project;
 
 public class ConsoleView implements Observer {
+    @Override
+    public void updateGame(int x, int y, int flag){
+    }
     private MineSweeper mineSweeper;
 
     // The `public ConsoleView(MineSweeper mineSweeper)` constructor in the `ConsoleView` class is
@@ -23,6 +26,7 @@ public class ConsoleView implements Observer {
         System.out.println("Current game state:");
         printGrid();
     }
+    
 
     /**
      * The `printGrid` method iterates through the MineSweeper grid and prints the status of each cell.

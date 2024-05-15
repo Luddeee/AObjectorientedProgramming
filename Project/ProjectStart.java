@@ -10,5 +10,6 @@ public class ProjectStart {
         new grid(mineSweeper);
         new ConsoleView(mineSweeper);
         new PrevGameState(mineSweeper);
+        new GameUI(mineSweeper);
     }
 }

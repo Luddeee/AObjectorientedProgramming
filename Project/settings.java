@@ -36,6 +36,9 @@ public class settings implements Observer{
         mineSweeper.registerObserver(this);
         initializeSettingsUI();
     }
+    @Override
+    public void updateGame(int x, int y, int flag){
+    }
 
     /**
      * The `initializeSettingsUI` function sets up a user interface for settings in a Java application,

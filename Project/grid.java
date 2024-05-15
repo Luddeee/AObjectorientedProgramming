@@ -185,4 +185,7 @@ public class grid implements Observer{
     private void refreshUI() {
         frame.repaint();
     }
+    @Override
+    public void updateGame(int x, int y, int flag){
+    }
 }

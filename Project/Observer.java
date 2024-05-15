@@ -6,4 +6,5 @@ package Project;
 // in the Observer design pattern to allow objects to subscribe and receive updates from a subject.
 public interface Observer {
     void update();
+    void updateGame(int x, int y, int flag);
 }

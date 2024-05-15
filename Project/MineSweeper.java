@@ -93,6 +93,13 @@ public class MineSweeper implements Subject{
         }
     }
 
+    @Override
+    public void notifyGameObserver(int x, int y, int flag) {
+        for (Observer observer : observers) {
+            observer.updateGame(x, y, flag);
+        }
+    }
+
     /**
      * The `setStrategy` method sets a new game strategy, applies settings, and restarts the game.
      * 
@@ -170,7 +177,7 @@ public class MineSweeper implements Subject{
                 mainPanel.add(squares[i][j]);
             }
         }
-        updateFocus();
+        notifyGameObserver(0,0,3);
         mainPanel.revalidate();
         mainPanel.repaint();
     }
@@ -192,9 +199,9 @@ public class MineSweeper implements Subject{
     private void handleMouseClick(MouseEvent e, int x, int y) {
         if(isLost==false){
             if (SwingUtilities.isRightMouseButton(e)) {
-                toggleFlag(x, y);
+                notifyGameObserver(x, y, 1);
             } else if (SwingUtilities.isLeftMouseButton(e)) {
-                showButton(x, y);
+                notifyGameObserver(x, y, 2);
             }
                 notifyObservers();
         }
@@ -204,7 +211,7 @@ public class MineSweeper implements Subject{
      * The `updateFocus` function iterates through a 2D array of squares and highlights the square at
      * the current position with a red border while setting all other squares to have a black border.
      */
-    private void updateFocus() {
+    void updateFocus() {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < row; j++) {
                 if (i == currXPlace && j == currYPlace) {
@@ -236,13 +243,13 @@ public class MineSweeper implements Subject{
                             currXPlace = Math.min(row - 1, currXPlace + 1); break;
                         case KeyEvent.VK_X:
                         if(isLost==false){
-                            showButton(currXPlace, currYPlace); break;}
+                            notifyGameObserver(currXPlace, currYPlace, 2); break;}
                         case KeyEvent.VK_Z:
                         if(isLost==false){
-                            toggleFlag(currXPlace, currYPlace); break;}
+                            notifyGameObserver(currXPlace, currYPlace, 1); break;}
                     }
                 }
-                    updateFocus();
+                notifyGameObserver(0, 0, 3);
                 return false;
             }
         });
