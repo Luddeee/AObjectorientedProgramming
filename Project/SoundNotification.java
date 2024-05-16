@@ -3,12 +3,8 @@ package Project;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class SoundNotification implements Observer {
-    private List<String> soundFilePaths = new ArrayList<>();
     private MineSweeper mineSweeper;
 
     // The constructor `public SoundNotification(List<String> soundFilePaths)` in the
@@ -58,7 +54,6 @@ public class SoundNotification implements Observer {
      */
     private void playSound(String filePath) {
         try {
-            System.out.println(filePath);
             File soundFile = new File(filePath);
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
             Clip clip = AudioSystem.getClip();

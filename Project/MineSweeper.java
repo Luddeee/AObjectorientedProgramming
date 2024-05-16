@@ -319,7 +319,9 @@ public class MineSweeper implements Subject{
             originalImage = loadImage("Project/interfaceIcons/" + fileName);
             scaledImage = originalImage.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
             button.setIcon(new ImageIcon(scaledImage));
-            updateSounds("plingsound");
+            if(!mines.contains(x + " " + y)){
+                updateSounds("plingsound");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
