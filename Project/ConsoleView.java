@@ -40,4 +40,8 @@ public class ConsoleView implements Observer {
             System.out.println();
         }
     }
+
+    @Override
+    public void updateSounds(String soundType) {
+    }
 }

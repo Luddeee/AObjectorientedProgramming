@@ -11,5 +11,6 @@ public class ProjectStart {
         new ConsoleView(mineSweeper);
         new PrevGameState(mineSweeper);
         new GameUI(mineSweeper);
+        new SoundNotification(mineSweeper);
     }
 }

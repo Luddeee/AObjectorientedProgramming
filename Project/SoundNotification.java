@@ -7,45 +7,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class SoundNotification implements SoundObserver {
+public class SoundNotification implements Observer {
     private List<String> soundFilePaths = new ArrayList<>();
-    private Random random = new Random();
+    private MineSweeper mineSweeper;
 
     // The constructor `public SoundNotification(List<String> soundFilePaths)` in the
     // `SoundNotification` class is initializing the `SoundNotification` object with a list of sound
     // file paths.
-    public SoundNotification(List<String> soundFilePaths) {
-        this.soundFilePaths.addAll(soundFilePaths);
+    public SoundNotification(MineSweeper mineSweeper) {
+        this.mineSweeper = mineSweeper;
+        this.mineSweeper.registerObserver(this);
     }
 
     /**
-     * The `playSoundNotification` method randomly selects a sound file path from a list and plays the
-     * corresponding sound.
-     */
-    @Override
-    public void playSoundNotification() {
-        if (soundFilePaths.isEmpty()) {
-            System.out.println("No sound file paths provided.");
-            return;
-        }
-        int index = random.nextInt(soundFilePaths.size());
-        String selectedFilePath = soundFilePaths.get(index);
-        playSound(selectedFilePath);
-    }
-
-    /**
-     * The function `playSoundNotification` plays a sound notification based on the provided sound
+     * The function `updateSounds` plays a sound notification based on the provided sound
      * type.
      * 
      * @param soundType The `soundType` parameter is a string that specifies the type of sound
      * notification to be played. It can have values "boomsound" or "plingsound" based on the switch
-     * cases in the `playSoundNotification` method.
+     * cases in the `updateSounds` method.
      */
-    public void playSoundNotification(String soundType) {
-        if (soundFilePaths.isEmpty()) {
-            System.out.println("No sound file paths provided.");
-            return;
-        }
+    @Override
+    public void updateSounds(String soundType) {
         String soundFileName = "";
         switch (soundType) {
             case "boomsound":
@@ -54,6 +37,9 @@ public class SoundNotification implements SoundObserver {
             case "plingsound":
                 soundFileName = "Project/soundFiles/plingsound.wav";
                 break;
+            case "winsound":
+                soundFileName = "Project/soundFiles/winsound.wav";
+                break;    
             default:
                 System.out.println("Invalid sound type.");
                 return;
@@ -72,6 +58,7 @@ public class SoundNotification implements SoundObserver {
      */
     private void playSound(String filePath) {
         try {
+            System.out.println(filePath);
             File soundFile = new File(filePath);
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
             Clip clip = AudioSystem.getClip();
@@ -81,6 +68,16 @@ public class SoundNotification implements SoundObserver {
             e.printStackTrace();
             // Handle sound playback exceptions gracefully
         }
+    }
+
+    @Override
+    public void update(){
+        
+    }
+
+    @Override
+    public void updateGame(int x, int y, int flag) {
+
     }
 }
 

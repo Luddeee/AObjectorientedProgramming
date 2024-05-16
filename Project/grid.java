@@ -188,4 +188,8 @@ public class grid implements Observer{
     @Override
     public void updateGame(int x, int y, int flag){
     }
+
+    @Override
+    public void updateSounds(String soundType) {
+    }
 }

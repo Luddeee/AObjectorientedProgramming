@@ -10,4 +10,5 @@ public interface Subject {
     void removeObserver(Observer o);
     void notifyObservers();
     void notifyGameObserver(int x, int y, int flag);
+    void updateSounds(String soundType);
 }

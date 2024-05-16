@@ -7,4 +7,5 @@ package Project;
 public interface Observer {
     void update();
     void updateGame(int x, int y, int flag);
+    void updateSounds(String soundType);
 }

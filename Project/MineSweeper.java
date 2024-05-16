@@ -57,20 +57,6 @@ public class MineSweeper implements Subject{
         setGlobalListeners();
     }
 
-    /**
-     * The `registerObserver` function adds an observer to a list of observers if it is not already
-     * present.
-     * 
-     * @param o The parameter "o" in the method "registerObserver" is an object of type Observer. This
-     * object represents an observer that will be registered to receive updates from the subject.
-     */
-    @Override
-    public void registerObserver(Observer o) {
-        if (!observers.contains(o)) {
-            observers.add(o);
-        }
-    }
-
    /**
     * The function removes an observer from a list of observers.
     * 
@@ -97,6 +83,12 @@ public class MineSweeper implements Subject{
     public void notifyGameObserver(int x, int y, int flag) {
         for (Observer observer : observers) {
             observer.updateGame(x, y, flag);
+        }
+    }
+    @Override
+    public void updateSounds(String soundType) {
+        for (Observer observer : observers) {
+            observer.updateSounds(soundType);
         }
     }
 
@@ -327,6 +319,7 @@ public class MineSweeper implements Subject{
             originalImage = loadImage("Project/interfaceIcons/" + fileName);
             scaledImage = originalImage.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
             button.setIcon(new ImageIcon(scaledImage));
+            updateSounds("plingsound");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -339,6 +332,7 @@ public class MineSweeper implements Subject{
                 e.printStackTrace();
             }
             isLost = true;
+            updateSounds("boomsound");
             JOptionPane.showMessageDialog(mainPanel, "You hit a mine!");
             for(int i = 0; i < row; i++){
                 for(int j = 0; j < row; j++){
@@ -366,6 +360,7 @@ public class MineSweeper implements Subject{
                 }
                 endTime = System.currentTimeMillis();
                 long elapsedTime = endTime - startTime;
+                updateSounds("winsound");
                 String name = JOptionPane.showInputDialog("YOU Win! Enter your name:");
                 if (name == null) {
                     name = "Pelle svanslös";
@@ -545,6 +540,12 @@ public class MineSweeper implements Subject{
             grid.getInstance().reloadHighScores("Project/Highscores" + currdifficulty + ".txt");
         } else {
             System.err.println("Error: highScoresManager is not initialized.");
+        }
+    }
+
+    public void registerObserver(Observer o) {
+        if (!observers.contains(o)) {
+            observers.add(o);
         }
     }
 }

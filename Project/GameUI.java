@@ -23,4 +23,8 @@ public class GameUI implements Observer{
         }
         
     }
+
+    @Override
+    public void updateSounds(String soundType) {
+    }
 }

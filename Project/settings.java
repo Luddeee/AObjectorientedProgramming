@@ -136,4 +136,9 @@ public class settings implements Observer{
     public String getDifficulty() {
         return (String)difficulty.getSelectedItem();
     }
+    @Override
+    public void updateSounds(String soundType) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateSounds'");
+    }
 }
