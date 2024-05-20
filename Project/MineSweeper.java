@@ -257,7 +257,9 @@ public class MineSweeper implements Subject{
         while (mines.size() < numMines) {
             int i = rand.nextInt(row);
             int j = rand.nextInt(row);
-            mines.add(i + " " + j);
+            if(!mines.contains(i + " " + j)){
+                mines.add(i + " " + j);
+            }
         }
     }
 
