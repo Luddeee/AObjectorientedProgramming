@@ -53,6 +53,8 @@ public class mineSweeperTest {
         mineSweeper.setDifficulty("Easy", 5, 0);
         mineSweeper.initializeGrid();
         mineSweeper.mines.clear();
+        mineSweeper.mines.add("1 1");
+
 
         mineSweeper.showButton(0, 0);
         assertTrue(mineSweeper.visited[0][0]);

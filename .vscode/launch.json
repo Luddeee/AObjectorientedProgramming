@@ -9,6 +9,13 @@
             "name": "ProjectStart",
             "request": "launch",
             "mainClass": "Project.ProjectStart",
+            "projectName": "AObjectorientedProgramming_c1fc7a9b"
+        },
+        {
+            "type": "java",
+            "name": "ProjectStart",
+            "request": "launch",
+            "mainClass": "Project.ProjectStart",
             "projectName": "aop_4c32fe87"
         },
         {

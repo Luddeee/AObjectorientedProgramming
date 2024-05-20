@@ -3,9 +3,16 @@
 [2] ads - 103
 [3] - 150
 [4] d - 167
-[5] jashd - 7063
-[6] khwdc - 10096
-[7] kasndk - 10393
-[8] Hej - 21927
-[9] Ludde - 25585
-[10] Ludde - 26410
+[5] bonk - 232
+[6] Pelle svanslös - 250
+[7] Pelle svanslös - 255
+[8] Pelle svanslös - 288
+[9] jashd - 7063
+[10] khwdc - 10096
+[11] kasndk - 10393
+[12] Bonk - 19024
+[13] Hej - 21927
+[14] Ludde - 25585
+[15] Ludde - 26410
+[16] djds - 41361
+[17] dkjdf - 68344
