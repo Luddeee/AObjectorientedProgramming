@@ -101,7 +101,6 @@ public class MineSweeper implements Subject{
     public void setStrategy(GameStrategy strategy) {
         this.gameStrategy = strategy;
         this.gameStrategy.applySettings(this);
-        //notifyObservers();
         restart();
     }
 
@@ -419,7 +418,6 @@ public class MineSweeper implements Subject{
                     System.out.println("Failed to create a flag");
                 }
             } else {
-                //button.setText("");
                 button.setIcon(null);
             }
         }
@@ -503,7 +501,6 @@ public class MineSweeper implements Subject{
             bombImage = bombImage2.getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
         } catch (Exception e) {
             e.printStackTrace();
-            // Handle the exception gracefully, maybe show an error message
         }
         for(int i = 0; i < row; i++){
             for(int j = 0; j < row; j++){
@@ -514,7 +511,6 @@ public class MineSweeper implements Subject{
                     }
                     button = squares[i][j];
                     button.setIcon(new ImageIcon(bombImage));
-                    //button.setEnabled(false); //same principle.
                 }
             }
         }

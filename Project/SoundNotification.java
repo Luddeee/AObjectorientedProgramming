@@ -61,7 +61,6 @@ public class SoundNotification implements Observer {
             clip.start();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
-            // Handle sound playback exceptions gracefully
         }
     }
 

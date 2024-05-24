@@ -1,1 +1,0 @@
-actionlissener för att avgöra storlek på text/Frame

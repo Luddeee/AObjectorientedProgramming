@@ -82,9 +82,7 @@ public class settings implements Observer{
         opt = new JComboBox<>(opti);
 
         difflabel.setText("Difficulty");
-        //difflabel.setHorizontalAlignment(JLabel.LEFT);
         optlabel.setText("Options");
-        //optlabel.setHorizontalAlignment(JLabel.LEFT);
         contentPanel2.setLayout(new BoxLayout(contentPanel2, BoxLayout.Y_AXIS));
         contentPanel2.add(difflabel);
         contentPanel2.add(difficulty);
@@ -138,7 +136,6 @@ public class settings implements Observer{
     }
     @Override
     public void updateSounds(String soundType) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateSounds'");
     }
 }

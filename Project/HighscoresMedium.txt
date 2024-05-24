@@ -1,9 +1,9 @@
 [0] Level Medium - 5
 [1] Aleks - 17945
-[2] Aleks  - 18556
+[2] Ludde  - 18556
 [3] Aleks - 18689
-[4] Aleks - 29186
-[5] Aleks - 39381
+[4] Ludde - 29186
+[5] Ludde - 39381
 [6] ohsid - 41302
 [7] Ludde - 75374
 [8] aleks - 426018

@@ -1,12 +1,12 @@
-[0] Pelle svanslös - 91
-[1] Pelle svanslös - 101
+[0] Pelle svansls - 91
+[1] Pelle svansls - 101
 [2] ads - 103
-[3] - 150
+[3] Bruh - 150
 [4] d - 167
 [5] bonk - 232
-[6] Pelle svanslös - 250
-[7] Pelle svanslös - 255
-[8] Pelle svanslös - 288
+[6] Pelle - 250
+[7] Pelle svansls - 255
+[8] Pelle svansls - 288
 [9] jashd - 7063
 [10] khwdc - 10096
 [11] kasndk - 10393
